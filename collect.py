@@ -31,8 +31,8 @@ upper_bound=(max-max%2000)+2001
 print(f"found {max} rows")
 print("Starting Requests")
 select = 'crash_date,crash_time,borough,zip_code,latitude,longitude,on_street_name,off_street_name,number_of_persons_injured,number_of_persons_killed,number_of_pedestrians_injured,number_of_pedestrians_killed,number_of_cyclist_injured,number_of_cyclist_killed,number_of_motorist_injured,number_of_motorist_killed,contributing_factor_vehicle_1,contributing_factor_vehicle_2,contributing_factor_vehicle_3,contributing_factor_vehicle_4,contributing_factor_vehicle_5,collision_id,vehicle_type_code1 as vehicle_type_code_1,vehicle_type_code2 as vehicle_type_code_2,vehicle_type_code_3,vehicle_type_code_4,vehicle_type_code_5,cross_street_name'
-#for bound in range(0,upper_bound,2000):
-for bound in range(0,10001,2000):
+for bound in range(0,upper_bound,2000):
+#for bound in range(0,10001,2000):
     where = (
         f'collision_id >= {bound} and collision_id < {bound+2000} and ('
         'contributing_factor_vehicle_1 != "Unspecified" or '
