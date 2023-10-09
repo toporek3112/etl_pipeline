@@ -1,43 +1,61 @@
 Driver Inattention/Distraction
-Fatigued/Drowsy
-Lost Consciousness
 Failure to Yield Right-of-Way
-Turning Improperly
+Following Too Closely
 Backing Unsafely
-Prescription Medication
-Driver Inexperience
+Passing or Lane Usage Improper
 Other Vehicular
-Oversized Vehicle
-Outside Car Distraction
+Passing Too Closely
+Turning Improperly
+Unsafe Lane Changing
+Fatigued/Drowsy
 Traffic Control Disregarded
-Physical Disability
-Passenger Distraction
-Alcohol Involvement
-Illness
-Pavement Slippery
-Other Electronic Device
-Aggressive Driving/Road Rage
-View Obstructed/Limited
-Obstruction/Debris
-Brakes Defective
-Reaction to Other Uninvolved Vehicle
-Lane Marking Improper/Inadequate
-Pavement Defective
+Driver Inexperience
 Unsafe Speed
+Alcohol Involvement
+Reaction to Uninvolved Vehicle
+Pavement Slippery
+Lost Consciousness
+View Obstructed/Limited
+Oversized Vehicle
+Prescription Medication
+Outside Car Distraction
+Pedestrian/Bicyclist/Other Pedestrian Error/Confusion
+Aggressive Driving/Road Rage
+Passenger Distraction
+Physical Disability
+Brakes Defective
+Fell Asleep
+Obstruction/Debris
 Glare
 Failure to Keep Right
-Traffic Control Device Improper/Non-Working
-Cell Phone (hands-free)
-Drugs (Illegal)
-Fell Asleep
 Steering Failure
-Passing or Lane Usage Improper
 Tire Failure/Inadequate
+Pavement Defective
+Other Electronic Device
+Illnes
+Illness
+Animals Action
+Driverless/Runaway Vehicle
 Accelerator Defective
-Following Too Closely
-Shoulders Defective/Improper
-Headlights Defective
+Drugs (illegal)
+Reaction to Other Uninvolved Vehicle
+Lane Marking Improper/Inadequate
+Traffic Control Device Improper/Non-Working
+Cell Phone (hand-Held)
+Drugs (Illegal)
+Cell Phone (hands-free)
+Tow Hitch Defective
 Other Lighting Defects
-Unsafe Lane Changing
-Unspecified
+Tinted Windows
+Using On Board Navigation Device
+Vehicle Vandalism
+Headlights Defective
+Eating or Drinking
+Shoulders Defective/Improper
+80
+Windshield Inadequate
 Cell Phone (hand-held)
+Texting
+Listening/Using Headphones
+1
+Unspecified

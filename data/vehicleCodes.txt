@@ -1,16 +1,2035 @@
+Sedan
+Station Wagon/Sport Utility Vehicle
 PASSENGER VEHICLE
 SPORT UTILITY / STATION WAGON
+Taxi
+Pick-up Truck
+4 dr sedan
+Box Truck
+Bus
 TAXI
+Bike
 VAN
+Tractor Truck Diesel
+Van
+OTHER
+Motorcycle
 LARGE COM VEH(6 OR MORE TIRES)
 SMALL COM VEH(4 TIRES) 
 LIVERY VEHICLE
 BUS
 PICK-UP TRUCK
-OTHER
-MOTORCYCLE
 UNKNOWN
+Ambulance
+Dump
+Convertible
+E-Bike
+Flat Bed
+PK
+Garbage or Refuse
+2 dr sedan
+E-Scooter
+MOTORCYCLE
+Carry All
+Moped
+Tractor Truck Gasoline
+Tow Truck / Wrecker
 AMBULANCE
+Chassis Cab
+Tanker
+Motorscooter
+Concrete Mixer
+Refrigerated Van
+Motorbike
+van
+Armored Truck
+Flat Rack
 FIRE TRUCK
+AMBUL
+Beverage Truck
+3-Door
+LIMO
 BICYCLE
+Lift Boom
+TRUCK
+School Bus
+TRAIL
+Stake or Rack
+FIRE
+MOPED
 SCOOTER
+E-Sco
+FDNY
+Multi-Wheeled Vehicle
+Snow Plow
+ambul
+E-Bik
+Ambul
+DUMP
+Open Body
+TRACT
+AMBU
+USPS
+Bulk Agriculture
+trail
+DELIV
+SCHOO
+TRAILER
+UTILI
+COM
+Pickup with mounted Camper
+COMME
+Pedicab
+ambulance
+DELV
+Trail
+UNKNO
+Truck
+SCOOT
+TOW T
+Fire
+Minibike
+FIRET
+FORKL
+Pallet
+truck
+ELECT
+BOX T
+AMB
+moped
+Lunch Wagon
+FIRETRUCK
+UTIL
+Van Camper
+Tow Truck
+PAS
+fire
+TOW TRUCK
+Motorized Home
+FLAT
+bus
+dump
+SCHOOL BUS
+Trailer
+Hopper
+TANK
+FDNY AMBUL
+UNK
+pick
+Minicycle
+schoo
+COMMERCIAL
+FORD
+Scooter
+TRAC
+fdny
+FDNY TRUCK
+BOX TRUCK
+tract
+GARBA
+TRK
+FDNY FIRE
+SELF
+MACK
+PICK UP
+REFG
+MOTOR
+box t
+usps
+GARBAGE TR
+garba
+ambu
+comme
+Commercial
+FREIG
+BACKH
+Fire Truck
+SANIT
+RV
+Firetruck
+TRL
+WAGON
+Fire truck
+tow t
+Vanette
+firet
+Tow T
+VAN T
+subn
+scooter
+trailer
+PEDICAB
+Livestock Rack
+STREE
+POSTA
+utili
+MTA BUS
+scoot
+Glass Rack
+motor
+POWER
+STAK
+fire truck
+Deliv
+UTILITY
+unk
+MTA B
+Well Driller
+SEMI
+PSD
+SPC
+tow
+Schoo
+OML
+FORK
+OMR
+deliv
+E BIK
+US PO
+SUV
+delv
+forkl
+Sanitation
+fork
+com
+posta
+FIRE ENGIN
+MAIL TRUCK
+SPRIN
+stree
+CRANE
+ROAD SWEEP
+MOTOR SCOO
+PICK UP TR
+FOOD
+USPS TRUCK
+Scoot
+DUMP TRUCK
+OMT
+sanit
+PICKUP
+picku
+PICK-
+box truck
+ELECTRIC S
+N/A
+POWER SHOV
+amb
+Forkl
+COMM
+GOLF CART
+Log
+elect
+MAIL
+Box T
+PASSENGER
+PC
+UHAUL
+E-BIK
+MOPD
+FORKLIFT
+FLATB
+TRACTOR
+CEMEN
+BOBCA
+mail
+Posta
+PICKU
+Comme
+DELIVERY T
+OMNIB
+VAN TRUCK
+backh
+Forklift
+tr
+Ambu
+YELLO
+PASSE
+ford
+EBIKE
+REFRI
+TANKE
+SEDAN
+Motor
+box
+G COM
+MINI
+unkno
+HINO
+CITY
+UT
+van t
+Firet
+Tow
+EMS
+Delivery
+Tract
+US POSTAL
+PASS
+USPS Truck
+Stree
+Pick
+unknown
+Street Swe
+TRLR
+FREIGHTLIN
+SELF INSUR
+Tow t
+UTILITY VE
+Enclosed Body - Removable Enclosure
+AMBULETTE
+FORK LIFT
+PICKUP TRU
+wagon
+freig
+SANITATION
+Pick up
+CONST
+utility tr
+Dump truck
+WHITE
+DIRT BIKE
+CMIX
+SPRINTER V
+Delv
+USPS MAIL
+FDNY LADDE
+BACK
+firetruck
+TRANS
+tk
+Com
+Gas scoote
+School bus
+tank
+CO
+mta b
+FLATBED
+DELIVERY
+forklift
+BULLD
+UPS TRUCK
+Passenger
+NYPD
+FORD VAN
+Excavator
+DELIVERY V
+FDNY Truck
+Unk
+FRHT
+AMBULENCE
+Garbage Tr
+Rescu
+Road sweep
+rv
+Sprinter V
+pickup
+FDNY FIRET
+FEDEX
+POSTAL TRU
+MOVIN
+Box t
+P/SH
+CARGO
+ROAD
+trl
+us po
+WINNE
+p/sh
+util
+suv
+Flat
+BOX
+work
+EXCAV
+E-SCOOTER
+semi
+VAN/T
+crane
+Sanit
+self
+FED E
+LIVER
+NYS AMBULA
+ENGIN
+mopad
+Electric S
+Wagon
+pas
+AMBULANE
+Dirt Bike
+Grumman LL
+Motorscoot
+GAS SCOOTE
+Sprinter v
+FDNY Ambul
+Delivery t
+BK
+TRACK
+Subn
+PUMP
+Fork lift
+bobca
+BS
+U-HAU
+unkow
+INTER
+HEAVY
+Utility
+Pickup
+house on w
+FOOD CART
+Backhoe
+Van Truck
+FIRE APPAR
+STREET SWE
+Fork Lift
+omt
+RENTA
+SUBUR
+Marke
+Self
+VMS
+NEW Y
+APPOR
+e-bik
+Enclosed Body - Nonremovable Enclosure
+commerical
+BOBCAT
+ICE C
+VAN/TRUCK
+E SCOOTER
+suburban
+UTILITY TR
+USPS VAN
+Mini
+NAVIG
+SUBURBAN
+GOVER
+Omnibus
+commercial
+dump truck
+HORSE
+SCOM
+USPS POSTA
+FREIGHT TR
+Utili
+Freight
+CASE
+PICK-UP TR
+E-BIKE
+E-bike
+LIGHT TRAI
+WORK VAN
+Cargo Van
+Flatb
+OMS
+MOTORSCOOT
+EXCAVATOR
+Tractor tr
+Fork
+G PSD
+3 WHE
+USPOS
+Box truck
+Government
+Const
+EMS Ambula
+pick up
+VERIZ
+USPS truck
+comm
+passe
+F550
+Fire Engin
+Pick up tr
+mta bus
+SKATE
+FLAT/
+SKATEBOARD
+Amb
+school bus
+LADDER TRU
+Motorized
+Gas Scoote
+VAV
+DUMPT
+APP
+LIGHT
+GOLF
+Backh
+BOOM
+ACCES
+RD/S
+trac
+Chevy
+MTA
+garbage tr
+Usps
+GOVERNMENT
+subur
+cater
+const
+sedan
+SEMI-
+TLC
+U HAU
+SW
+ice c
+PSH
+Tow truck
+FRIEG
+Elect
+Utility ve
+rmp
+GAS MOPED
+jeep
+Pickup tru
+other
+FUEL
+acces
+cemen
+Ford
+7532433
+REVEL
+Street Cle
+Tk
+COM DELIVE
+TTAILER
+CATAPILLAR
+skateboard
+NYNJ RAIL
+PROMASTER
+E-scooter
+ELEC. UNIC
+ebike
+PERM
+FDNY EMS
+Sprinter W
+Mail
+Motor Scoo
+Usps mail
+Gas Moped
+Self insur
+Courier
+FIRTRUCK
+utility
+Waste truc
+MOTOR SKAT
+Trac
+Can
+FLATBED FR
+USPS/GOVT
+SMART CAR
+Scooter ga
+7
+Van truck
+Road Sweep
+Power Shov
+Crane
+E MOTORCYC
+road sweep
+fdny ambul
+SKYWATCH
+G AMB
+TRUCK TRAI
+NYC FD
+LSV
+LIABITIY
+ELECTRIC C
+na
+MARKED VAN
+fed ex tru
+Ram Promas
+FRHT TRAIL
+NIU
+Suv
+g com
+Flat bed t
+ambulette
+E-SKATEBOA
+CEMENT TRU
+Small Bus
+997
+FLYWING MO
+MTA truck
+refuse tru
+fdny ems
+SKID LOADE
+FIRET TRUC
+MECHANICAL
+Subr
+access-a-r
+999
+MOVING VAN
+Ladder tru
+backhoe
+MC
+Sweeper
+power shov
+DELV WH
+tlc
+UNKN
+Ford sprin
+BOBCAT FOR
+MOTORIZEDS
+18 WHEELER
+MILITARY
+Unknown
+Dump Truck
+Utility Ve
+Horse
+MAC
+Pick up Tr
+EMI- TRAIL
+pick up tr
+NYS Ambula
+Mcy
+Work truck
+A,n
+Delivery T
+RAZOR150 M
+MTA Bus
+ELECTRIC M
+Mopped
+E REVEL SC
+Wh Ford co
+P PSD
+PASS VAN
+Pickup tow
+FDNY Vehic
+escavator
+FREIGHT FL
+50cc mini
+FLATBED TO
+GEN  AMBUL
+50CC SCOOT
+DRILL RIG
+CAT
+Traffic To
+Ford FF
+COURIER
+MTA Van
+SWT
+Lawnmower
+MANUAL SCO
+CARGO VAN
+dark color
+Fdny ems
+dirt bike
+CHEVY EXPR
+YELLOW BUS
+Fdny Fire
+FDNY #226
+cross
+amazon tru
+TL
+MAIL CARRI
+FOOD TRUCK
+JOHN DEERE
+government
+Front-Load
+delivery t
+OTH
+AMBULANVE
+Pumper
+TRUCK FLAT
+electric s
+forlift
+EMT Ambula
+HEAVY TRUC
+police rep
+E scooter
+EMS FDNY B
+Garbage tr
+50cc Scoot
+F550 ESU R
+Cement tru
+MINI VAN
+Mack
+Constructi
+Ambulence
+TLR
+Ram
+SCHOOL  BU
+crane boom
+work truck
+Mack Truck
+FEDEX TRUC
+UPS
+FDNY Firet
+DEPARTMENT
+AMBULACE
+SCOOTER GA
+USPS VEHIC
+Yamaha
+MOVING TRU
+MINI BUS
+SEDONA
+utility ve
+GAS POWERE
+Golf cart
+Schoolbus
+FORD AMBUL
+YELLOW TAX
+BOXTRUCK
+Pass
+REG
+gas mo ped
+FORD F-150
+Pro master
+ECONOLINE
+VAN WH
+MOPED 150C
+Postal tru
+Dodge ram
+e-scooter
+COMMERICAL
+e bike uni
+FREIGHT VA
+backhoe re
+CON ED TRU
+utv bobcat
+Lift
+.
+TRANSPORT
+TCN
+FireTruck
+ASPHALT RO
+CAN
+VERZION VA
+Garbage
+fork lift
+gas moped
+Toyota
+CAT FORKLI
+Ice Cream
+MINI SCHOO
+Govt P/U T
+U-Haul
+12 passage
+Ford f150
+STREET CLE
+UNK BOX TR
+nys ambula
+M2
+LOCOMOTIVE
+del truck
+USPS posta
+DOT
+Horse carr
+SPR
+DUMPTRUCK
+NJ transit
+Post offic
+truck trai
+FDNY- Fire
+street swe
+Backhoe Lo
+VA
+postal bus
+post offic
+DELV BR
+NYC AMBULA
+Fdny engin
+passenger
+usps  van
+OML/OMNIBU
+FORD SPRIN
+AMBUKANCE
+SPARK150 S
+HERTZ RAM
+DOT TRUCK
+CATER
+100th truc
+NYC PARKS
+FDNY CHIEF
+NYC TRANSI
+TRACTOR TR
+SPECIAL CO
+Quality tr
+Electric m
+Mack truck
+Self Insur
+AMUBULANCE
+Pick Up
+SNOW PLOW
+Ford Trans
+BULLDOZER
+Tank
+CMIXER
+con ed tru
+sanitaion
+Ele. Unicy
+FDNY ENGIN
+SUBN - AMB
+SEMI TRAIL
+NYPD VAN
+CARRIER
+ELE MOTORC
+FedEx box
+MINI VAHN
+ESU REP
+MINIVAN
+mailtruck
+White Van
+NYC FIRE T
+''lime mope
+SCHOOLBUS
+Pick wh
+NYPD TOW T
+NYC SANITA
+MTA transi
+HWH
+Unmarked V
+GOVT
+DODGE RAM
+Fire Truvk
+usps truck
+Mailtruck
+MOTOR HOME
+Ford Couri
+EMS bus
+SANMEN COU
+SHUTTLE BU
+UHAL
+STREET
+Dodge
+Mini Van
+kick scoot
+City Owned
+Postal ser
+BOX CAR
+MACK TRUCK
+Horse trai
+commerial
+TF
+ESCOOTER S
+994
+LOADE
+Trc
+PET
+MO PE
+semi-trail
+dirtb
+POIS
+Yamah
+MTA C
+cargo
+semi-
+MVP
+G1
+MINIV
+tower
+Car C
+RESCU
+rmb
+front
+YW PO
+11-VA
+C3
+GATOR
+uhaul
+progr
+4D
+f15
+Token
+GEICO
+G1`
+USPS # 487
+SYBN
+?omme
+SCOO
+plow
+Power
+KP160
+UNKOWN
+4 RUN
+VAB
+SUDN
+dodge
+Shove
+18 WH
+TCM
+food
+white
+depar
+vAN
+4DS
+5X8 T
+bobct
+CATIP
+Budge
+omni
+Mo pa
+GE/SC
+refg
+TAN P
+small
+Ice C
+omnib
+NYC BUS
+NYC F
+SE
+PEDIC
+CABIN
+UPS t
+1S
+dp
+BUs
+omr
+P/SE
+315 e
+us postal
+TR/KI
+4whee
+east
+PRIVA
+DOLLY
+GLBEN
+OZ MO
+nycta
+mta B
+delie
+u-hau
+mack
+pedic
+KME/F
+VESPA
+oml
+del
+Livery Bus
+Uhaul
+TAILG
+TRC
+MTA U
+DIRTB
+NT TR
+ELEC.
+Tram
+TL TR
+sterl
+marke
+SPEC
+FREE
+CON E
+UPS M
+DODGE
+REFR
+COLL
+taxi
+inter
+Econo
+250-3
+YALE
+dirt
+TOWMA
+SUBR
+DEIV
+Pavin
+26 ft
+dsny
+cm
+dhl t
+9999
+nyu s
+REP
+CONTR
+flatb
+2 DR
+G TOW
+n/a
+U-HAL
+NISSA
+C1
+11111
+Ebike
+g scl
+15 pa
+US Po
+TOWTR
+ukn
+LMTV
+HD To
+hi-lo
+MTA V
+ram
+Refri
+3 Whe
+4door
+2000
+NOT I
+WHIT
+4dsd
+BOX H
+2 WHE
+FLEET
+atv p
+sweep
+985
+PS
+E.M.S
+STERL
+MAXIM
+SWEPE
+e tow
+OLC
+CHEVR
+CITY OWNED
+1
+scoo
+power
+TRAC.
+COM T
+Motor Home
+Stake
+JEEP
+VPG
+fedx
+US
+SCL
+ups t
+US MA
+RV/Tr
+yello
+PSP
+TRALI
+NA
+HOSRE
+gokar
+SERVI
+scooc
+pOSTA
+nyfd
+tr/tr
+FIRER
+golf
+Hino
+hino
+A-ONE
+yy
+conta
+HOUSE
+r/v
+OMT/T
+lmb
+bsd
+Mecha
+f-250
+MOBIL
+comm.
+BTM
+F650
+E SCO
+LMB
+SKID-
+Mta
+excav
+NYS A
+back
+vespa
+Barri
+LIMOU
+CONT
+g spc
+POLIC
+HI TA
+BoxTr
+35 FT
+CAT.
+PU
+limo
+NTTRL
+nypd
+SANTI
+CAT P
+omm
+LTRL
+U-Hau
+TKTR
+SEA
+BUCKE
+Snow
+Hrse
+NYCHA
+moter
+SC
+Attac
+DIRT
+SEGWA
+COURI
+TRACK EXCA
+dumps
+concr
+TIR
+COMMU
+movin
+�MBU
+USP M
+road
+MAC T
+Fdny ambul
+COM TRANS
+Ford Van
+PUSH SCOOT
+Hearse
+Horse Trai
+USPS #7530
+FDNY EMT
+FREIG DELV
+pc
+delivery v
+Work van
+TR-Trailer
+E bike
+LCOMM
+e skate bo
+0
+hrse
+BACK HOE
+CHEVROLET
+tow truck
+postal tru
+FUSION
+LIT DIRECT
+postal ser
+2015
+fdny truck
+Food
+DELVI
+E bik
+ECONO
+GRUMM
+E450
+towe truck
+St
+sprinter v
+RV/VAN
+TTRAILER
+nat grid t
+I-haul
+FDNY EMS V
+T880
+pedicab
+food truck
+EMERGENCY
+City
+D/V WB
+yellow cab
+Bobcat
+te
+PKUP
+E3
+spec
+Smart
+ulili
+Pick-
+icecr
+White
+boxtr
+CHART
+TRLR PLT,
+VAN/B
+CART
+Semi
+15 Pa
+seagr
+e sco
+BED T
+WHEEL
+BICYC
+UPS T
+Util
+FORK-
+COMB
+Work
+Tow-t
+NYC a
+fd tr
+C0MME
+Sweep
+Bucketload
+paylo
+3DC-
+Picku
+SELF-
+U.S. POSTA
+HORSE CARR
+OIL T
+VAN W
+Farm Vehicle
+Cargo
+SPRINTER
+Veriz
+COMMM
+HIGHL
+ELECTRIC B
+EMS A
+G Sem
+2 TON
+Movin
+NYC M
+R/V
+FD TR
+none
+trk
+E COM
+EMRGN
+ROADS
+ARMY
+Fd fi
+CHEVY
+AMbul
+VAN A
+push
+Unkno
+mc
+BOAT
+SWEEP
+Track
+ME/BE
+Grain
+12 Pa
+red t
+USPS2
+NYC D
+CMS-T
+Feder
+MARK
+e com
+Inter
+NS AM
+MTA b
+DUMPS
+Wheel
+LIBER
+FD tr
+FRONT
+CAMP
+GRAY
+WORK
+R/V C
+Sprin
+WORKH
+RGS
+Dumps
+NYC
+BLOCK
+UTV
+2- to
+TOWER
+Garba
+CHERR
+Comm
+Tractor Tr
+flat
+DIRTBIKE
+Suburban
+LIFT
+sanitation
+RAM
+constructi
+P/U
+TRAILOR
+RMP
+Pick Up Tr
+FDNY Fire
+WHEELCHAIR
+horse
+2 DOO
+E-Unicycle
+Flatbed
+CAMPE
+POST
+UNKOW
+LCOM
+FED EX
+tractor tr
+E Bik
+Snowmobile
+SEMI-TRAIL
+e-bike
+E-SCO
+ARMOR
+Cmix
+REVEL SCOO
+SKID
+Dirtbike
+EMS TRUCK
+tractor
+Skateboard
+USPS Mail
+FEDER
+G PAS
+SMART
+stak
+pickup tru
+BOB C
+KENWO
+Freig
+motor scoo
+MAN L
+BOOM LIFT
+JOHND
+Moped clas
+600AJ
+PARKE
+Carri
+E-bik
+Mail Truck
+spc
+Motor scoo
+PEDI CAB
+lift
+FDNY ambul
+EXPRE
+VAN C
+PLOW
+BOX VAN
+Van/Truck
+IP
+self insur
+Minivan
+MTA Truck
+MOPET
+BUSS
+trlr
+street cle
+POSTAL VEH
+FD LA
+rep
+FRE
+Street swe
+LEFT
+motorcycle
+SPECIAL PU
+mecha
+Electric s
+e bik
+X COM
+detac
+frieg
+SBN
+track
+MOPPED
+MOPAD
+MOPED SCOO
+Trailor
+Fdny
+CONSTRUCTI
+fdny ladde
+FLAT BED T
+CHERRY PIC
+JOHN
+FD TRUCK
+FDNY fire
+UD
+PZ
+BACKHOE LO
+NYC S
+Tractor
+HAND
+UKNOWN
+Food Cart
+LADDE
+USPS MAILT
+COLLECTION
+uni e-bike
+bmw
+MOTORED SC
+NICE BUS
+ROADROLLER
+gas bicycl
+util truck
+basic psd
+E BIKE
+COURIER VA
+toolcat
+cat payloa
+PRIVATE
+WH
+Go kart
+FDNY RIG
+Bucket tru
+MOTOR DIRT
+FDNY AMBU
+work van
+AMBULCANCE
+Freight Va
+2YDSWHEELL
+transport
+AMAZON SPR
+Fleet
+LEFT THE S
+NYC ACS Va
+boom lift
+MAILTRUCK
+12 PASSENG
+AMAZON VAN
+Amazon tru
+Escavator
+motorbike
+JJ150T-4A
+CAR TRAILE
+Car traile
+TL TRAILER
+U-HAUL
+PENSKE BOX
+pass
+SCOOTER SI
+mopd
+SCOOTER/MO
+FRIEGHTLIN
+REAR END
+golf cart
+INTERNATIO
+GTH-1056
+FDNY firet
+Moped Scoo
+John Deere
+NYC FIRETR
+uhaul truc
+LLV MAIL T
+INDUSTRIAL
+Command Po
+CADET
+Spc
+Uhaul truc
+CONST EQUI
+INTE TRUCK
+GOLF KART
+UNKNOWN VE
+Truck cran
+COMMAND PO
+Bobcat 216
+mta bus  4
+Transit
+Caterpilla
+Util.
+SCHOOL VAN
+TOW TRICK
+EMERGANCY
+FDNY truck
+Comm Food
+e-sooter
+courier
+WORKH UTIL
+E- MOTOR B
+PICKUP TOW
+wheel barr
+POSTAL SER
+Motorizeds
+AMBULANCE`
+FREIGHT
+DEL
+RENTED BOO
+FIRE TURCK
+motorhome
+STAND UP s
+FOOD VENDE
+Hyster For
+SCOOTER BI
+DSNY SWEEP
+REVEL MOPE
+POSTAL tru
+Freighntli
+Special Co
+USPS Vehic
+White box
+FD Ladder
+Fd engine
+ARCIMOTO
+HOUSE ON W
+Distributo
+FORD EC2
+Work Van
+white van
+UHAUL TRAI
+motorized
+E Wheelcha
+WHITE WORK
+E- SCOOTER
+SAVANA VAN
+FDNY bus
+Access A R
+Usps truck
+Dumpster t
+AUTOTRLR T
+BEYOND SCO
+charter bu
+NYC TRUCK
+Pas
+Cargo van
+ECOLINE VA
+Refriger T
+Push scoot
+NYC FDNY
+RAZOR SCOO
+CAT CATERP
+U haul mov
+Electric M
+e-BIKE
+16m
+straight t
+COMMERIAL
+JOHNDEERE
+E Bike
+USPS box t
+Pick-up tr
+TOOLCAT FO
+wheelchair
+WHITE VAN
+MOTORIZED
+WSTR
+Seagrave T
+SCOOTER (G
+EMS AMBULA
+UPS Truck
+POSTOFFICE
+Siting mop
+Transit va
+black
+MOTOR. SCO
+escooter
+JLG ULTRA
+CARAVAN
+Electricun
+LTR
+camper
+Trailer Fl
+Telehandle
+COMM VAN
+Workcart
+Scooter/Mo
+CHEVY VAN
+Fdny 331 k
+Pickup SL
+Maintenanc
+GSPC
+17
+black mope
+AMBLUANCE
+Fed Ex Van
+DOT TOW TR
+FDNY Ferra
+Tracktor T
+P/SH YW
+Car Traile
+Bull dozer
+Subn/ambul
+Postal Tru
+Unknown ve
+A bulance
+Box Car
+MOTO-SCOOT
+Electrict
+NYPD Tow t
+FORD TWO T
+White Work
+EXCABATOR
+CITIBIKE
+STAKE TRUC
+freight To
+Crane truc
+Garage
+CITY VEHIC
+excavator
+bay crane
+LIMIT USE
+FORD TRANS
+GAS MO-PED
+Trl
+MO PED
+Moped scoo
+wheel load
+Busv
+engine
+18 wheel
+LEFT SCENE
+SHORT SCHO
+Utility ca
+Flat bed
+50 CC Moto
+Lateral Tr
+Segway
+fedex truc
+EMBULANCE
+back ho
+swingloade
+Motor home
+MTA NYC BU
+DL
+Scooter no
+UNK FEMALE
+Power shov
+EC3
+12 PASS VA
+revel
+Ambiance
+UPS Van
+AMBULAMCE
+AERIAL LIF
+RIDE ON SC
+DOLLAR VAN
+Chevy carg
+psd
+Marked Van
+Ems truck
+Revel Scoo
+Fed ex van
+ENTERPRISE
+delivery w
+van truck
+Gator
+Fedex Box
+VAn
+FIRE BUS
+GOV VEHICL
+DSNY sanit
+electric m
+TRAILER TR
+EMT Truck
+Moped bike
+CONTRUCTIO
+UHAUL TRUC
+Na
+STAND UP S
+gas scoote
+Mop Pad
+B55 excava
+UHaul Truc
+NYC FIRE D
+NEW FLYER
+gas bike
+MOBILITY S
+e scooter
+Ems
+Detached T
+Cherry pic
+FOOD DELIV
+Dart bike
+TOWTRUCK
+Train cart
+Food cart
+ESCOOTERSI
+Ltrl
+4 wheeler
+ESCAVATER
+E SKATEBOA
+PRIV AMBUL
+DUMP GR
+LAWNMOWER
+U HAUL
+x trailer
+bobcat sno
+KOMATSU LO
+TRANSIT MT
+T350HD
+SchooL bus
+UNICYCLE
+MTA WORK T
+Stak
+UKN
+anbul
+FLAT BED
+RMP V
+ARIEL
+WESCO
+APP C
+foor
+SUBN-
+gover
+snow
+MTA T
+TUCK
+12 PA
+SEN
+CT
+speac
+big r
+llv
+Broom
+SCISS
+Liver
+ACCEE
+DLEV
+Acces
+NYPD Signa
+waste
+fed e
+f350
+nyc m
+DOT T
+rolle
+navig
+small trac
+Engi
+PISH
+VMS SIGN
+12 fe
+PAS V
+M/A
+HEIL
+tt
+utilt
+COM/A
+C-1
+000
+JUNST
+UNKWN
+MOVIE
+WANC
+ELEC
+FDny
+AP
+FORTL
+uliti
+TRLPM
+G OMR
+red,
+DELV.
+utlit
+Humme
+scaff
+CAT 4
+BLUE
+DUMPSTER
+TANDU
+LIMO/
+DEL T
+YLL P
+GENIE
+Light Towe
+DEP V
+LADD
+wesco
+COMM TRK
+All-Terrain Vehicle
+bus y
+boat
+U.S.P
+nyc s
+PETER
+FLLET
+impal
+TR/C
+vav
+FOOT
+clean
+van s
+FREIH
+AMULA
+CAR T
+GREEN
+vn
+REFRG
+HI LO
+430
+QMZ
+wg
+Rolli
+post
+isuzu
+GR HS
+NYC A
+DOOSK
+FireT
+Ecoli
+trans
+8X20
+srf
+PUSH
+GMC
+OMC
+me/be
+dumpe
+SRF
+VAM
+QUAD
+G  CO
+MI/FU
+Gene
+2dr
+skate
+J1
+cab
+UTYLI
+USPS#
+NYC-S
+sub
+TOWE
+Van/R
+uni
+00
+REFQ
+FED
+US GO
+yw
+e amb
+NYFD
+N?A
+RORO
+GMC V
+john
+box p
+GENUI
+gov v
+PUMPE
+UNK.
+OFFIC
+eletr
+Mot S
+LULL
+engin
+MECHA
+PLATF
+Truc
+VAN F
+SMALL
+2003
+fedex
+NYC B
+VAN U
+12' o
+AM/TR
+LUV
+Semi-
+Boom
+Back
+trc m
+DB
+Govt
+Delie
+dot t
+hilow
+miniv
+silve
+light
+PALLE
+scho
+train
+Red M
+tilla
+salt
+LAWN
+green
+YPS
+GREEB
+chev
+HOE-L
+DEPT
+013
+Pick Truck
+RAZOR
+boom
+DETAC
+ASPHA
+BUMP
+52? t
+CONCR
+Liebh
+Skate
+van a
+mo-pe
+TCR
+wheel
+Sciss
+TUGGE
+Depar
+spec-
+Pedic
+2 HOR
+Postal Veh
+access a r
+sprin
+CHURC
+ALUMI
+Laund
+DSNY
+e-BIK
+Mopen
+U-TRU
+CRWZK
+nyc b
+Excav
+MTRIZ
+ENCLO
+speci
+MAN B
+TOWIN
+Van (
+JLG L
+BLACK
+RD BLDNG M
+PALLET JAC
+Forklift t
+TOUR BUS
+FLATBED TR
+ESCAVATOR
+18 WEELER
+GLNEN
+SWEEPER
+Light trai
+HEARSE
+E-Scoter
+LMA
+Dirt bike
+T630 Forkl
+RDS
+JETSKI
+BOB CAT
+Tree cutte
+VAN/TRANSI
+GLP050VXEV
+ICE CREAM
+MOBILE
+tow trk
+trailor
+00000
+armored tr
+SKIDSTEERL
+boom crane
+flatbed
+CITY OF NE
+GOV
+Mobile foo
+PICK RD
+BULDOZER
+HINO TANK
+POSTAL CAR
+NYC fire t
+SCOTTER
+TANK WH
+NYC DOT
+FEDERAL EX
+City MTA b
+Pumper tru
+VMS T
+18 Wh
+FD NY
+Light
+HWY C
+SHCOO
+Unk,
+RED T
+Veh L
+Box
+GAS S
+TKP
+Us po
+B5-44
+spc p
+Uber
+mot s
+(ceme
+Chevr
+SUDAN
+UTILITY VA
+HOTDO
+Cat
+nyc a
+hook
+New Y
+TLC v
+vol
+BOOML
+JCB40
+DIESE
+VAN`
+mta
+UNKNOW
+TRIAL
+JLG B
+mopet
+Limou
+cat 3
+RYDER
+Gas T
+HI-LO
+WC
+UHUAL
+UTLL
+FRE T
+Cater
+OML/
+E
+PCH
+E350
+GARAB
+Tr
+bed
+S/SP
+case
+Road
+conv
+car c
+scava
+72000
+APURP
+NV150
+WASTE
+16M
+JohnD
+DIG-I
+cate
+USPST
+EPO
+COM.
+Porta
+Hand
+ken
+e BIK
+COMER
+EMS H
+ND
+SUBN/
+DUNBA
+TRANSIT VA
+FLTRL
+3-Whe
+u.s p
+nyc f
+Electronic
+GOV'T
+BOXTR
+BOBCAT/FOR
+MTA bus
+vehicle tr
+semitraile
+STATION WA
+Budget tru
+Sierra
+Fdny fire
+motor home
+sprinter
+Motorhome
+Rental van
+u haul
+HURSE
+POLICE VEH
+Tow-truck
+Dollar Van
+BOOM 60FT
+Fire rig t
+UHAUL VAN
+OLM
+suv /
+harve
+GMC T
+AMUBL
+fre
+CONCRETE M
+UNATTACHED
+UHAUL BOX
+UHAUL Trai
+bmw moped
+DUAL
+DIRT-
+TRIALER
+SALTSPREAD
+Pick-Up
+SEMI-TRUCK
+RV motorho
+TOYOT
+FORD SUPER
+VAN FORD

@@ -23,6 +23,6 @@ alter table "Staging" add contributing_factor_vehicle_3;
 alter table "Staging" add vehicle_type_code_3;
 alter table "Staging" add contributing_factor_vehicle_4;
 alter table "Staging" add vehicle_type_code_4;
+alter table "Staging" add cross_street_name;
 alter table "Staging" add contributing_factor_vehicle_5;
 alter table "Staging" add vehicle_type_code_5;
-alter table "Staging" add cross_street_name;

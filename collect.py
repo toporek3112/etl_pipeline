@@ -11,7 +11,7 @@ def progress_bar(cur_index:int,total:int):
     sys.stdout.flush()
 
 
-print("Setup API connection")
+print('Setup API connection')
 client = Socrata("data.cityofnewyork.us", "mZ2a4QZWgW1U6H36nLENWBkuE")
 
 print("Setup Database Connection")
@@ -27,14 +27,17 @@ total=0
 
 print("Checking total amount of data:")
 max = int(client.get("h9gi-nx95", select='max(collision_id)')[0]["max_collision_id"])
-upper_bound=(max-max%2000)+2001
+request_size=10000
+lower_bound=220751
+#upper_bound=80001
+upper_bound=(max-max%request_size)+request_size+1
 print(f"found {max} rows")
 print("Starting Requests")
 select = 'crash_date,crash_time,borough,zip_code,latitude,longitude,on_street_name,off_street_name,number_of_persons_injured,number_of_persons_killed,number_of_pedestrians_injured,number_of_pedestrians_killed,number_of_cyclist_injured,number_of_cyclist_killed,number_of_motorist_injured,number_of_motorist_killed,contributing_factor_vehicle_1,contributing_factor_vehicle_2,contributing_factor_vehicle_3,contributing_factor_vehicle_4,contributing_factor_vehicle_5,collision_id,vehicle_type_code1 as vehicle_type_code_1,vehicle_type_code2 as vehicle_type_code_2,vehicle_type_code_3,vehicle_type_code_4,vehicle_type_code_5,cross_street_name'
-for bound in range(0,upper_bound,2000):
-#for bound in range(0,10001,2000):
+for bound in range(lower_bound,upper_bound,request_size):
+    print(f'requesting id {bound} to {bound + request_size}')
     where = (
-        f'collision_id >= {bound} and collision_id < {bound+2000} and ('
+        f'collision_id >= {bound} and collision_id < {bound+request_size} and ('
         'contributing_factor_vehicle_1 != "Unspecified" or '
         'contributing_factor_vehicle_2 != "Unspecified" or '
         'contributing_factor_vehicle_3 != "Unspecified" or '
@@ -50,8 +53,7 @@ for bound in range(0,upper_bound,2000):
     #print(select)
 
     #print(where)
-    print(f'requesting id {bound} to {bound+2000}')
-    results = client.get("h9gi-nx95", limit=2000,where=where,select=select)
+    results = client.get("h9gi-nx95", limit=request_size,where=where,select=select)
     #print(type(results))
     #print(type(results[0]))
     total += len(results)
@@ -69,22 +71,21 @@ for bound in range(0,upper_bound,2000):
 
         for v in result.values():
             if sqlValues=='':
-                sqlValues=f"'{v}'"
+                sqlValues="'"+str(v).replace("'","''")+"'"
             else:
-                sqlValues = sqlValues + f",'{v}'"
+                sqlValues = sqlValues + ",'"+str(v).replace("'","''")+"'"
 
         sqlstr=f'insert into "Staging" ({sqlKeys}) VALUES ({sqlValues});'
         #print(sqlstr)
         cursor.execute(sqlstr)
         conn.commit()
-    print('\nDone')
-
+    print(f'\n{round(bound/upper_bound*100)}% Done')
     data=pd.concat([data,pd.DataFrame(results)],ignore_index=True)
 
 print(f"sum: {total}")
 print('datatypes:')
 print(data.dtypes)
-data = data.rename({'vehicle_type_code1': 'vehicle_type_code_1', 'vehicle_type_code2': 'vehicle_type_code_2'}, axis=1)
+#data = data.rename({'vehicle_type_code1': 'vehicle_type_code_1', 'vehicle_type_code2': 'vehicle_type_code_2'}, axis=1)
 
 contributingFactors=[]
 vehicleCodes=[]
