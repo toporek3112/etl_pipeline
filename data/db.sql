@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS Staging (
+CREATE TABLE IF NOT EXISTS staging_02 (
     crash_date DATE,
     crash_time TIME,
     borough TEXT,
@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS Staging (
     latitude FLOAT,
     longitude FLOAT,
     on_street_name TEXT,
+    cross_street_name TEXT
     off_street_name TEXT,
     number_of_persons_injured INT,
     number_of_persons_killed INT,
@@ -26,7 +27,6 @@ CREATE TABLE IF NOT EXISTS Staging (
     vehicle_type_code_3 TEXT,
     vehicle_type_code_4 TEXT,
     vehicle_type_code_5 TEXT,
-    cross_street_name TEXT
 );
 
 -- commands

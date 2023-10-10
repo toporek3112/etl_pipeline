@@ -2,9 +2,9 @@
 docker run --name postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=password -e POSTGRES_DB=postgres -p 5432:5432 -d postgres:latest
 # run pgAdmin 
 docker run -p 5050:80 \
-    -e 'PGADMIN_DEFAULT_EMAIL=user@example.com' \
-    -e 'PGADMIN_DEFAULT_PASSWORD=postgres' \
-    --name pgadmin4_container \
+    -e 'PGADMIN_DEFAULT_EMAIL=admin@admin.com' \
+    -e 'PGADMIN_DEFAULT_PASSWORD=password' \
+    --name pgadmin \
     -d dpage/pgadmin4
 # http://localhost:5050
 

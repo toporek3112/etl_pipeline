@@ -1,3 +1,5 @@
+## Not in use
+
 import pandas as pd
 import requests
 from requests.structures import CaseInsensitiveDict

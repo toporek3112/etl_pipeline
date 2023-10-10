@@ -3,10 +3,17 @@ import pandas as pd
 import re
 import sys
 
+STAGING_TABLE_NAME="staging_02"
+DATABASE_SETTINGS = {
+    "database": "postgres",
+    "user": "postgres",
+    "password": "password",
+    "host": "localhost",
+    "port": "5432"
+}
+
 print("Setup Database Connection")
-conn = psycopg2.connect(
-   database="postgres", user='postgres', password='password', host='localhost', port= '5432'
-)
+conn = psycopg2.connect(database="postgres", user='postgres', password='password', host='localhost', port= '5432')
 conn.autocommit=False
 cursor = conn.cursor()
 
@@ -221,7 +228,7 @@ for bound in range(lower_bound, upper_bound, query_size):
             coordinateId += 1
             timestampId += 1
             addressId += 1
-            accidentId += 1e
+            accidentId += 1
     print(f'\n{round(((bound-lower_bound)/(upper_bound-lower_bound))*100)}% Done')
 
 
