@@ -112,10 +112,7 @@ def insert_vehicles(vehicleId,result):
         return res, vehicleId, nr
 
 
-timestampId = 0
-coordinateId = 0
-addressId = 0
-accidentId = 0
+
 
 contributingFactorIds = [0,0,0,0,0]
 cursor.execute('SELECT max("ContributingFactorId") FROM "ContributingFactors";')
@@ -156,14 +153,32 @@ for index, row in vehicleCodes.iterrows():
 print("Checking total amount of data:")
 cursor.execute('SELECT count(collision_id) FROM "Staging";')
 max=cursor.fetchone()[0]
+cursor.execute('SELECT max("AccidentId") FROM "Accidents";')
+min=cursor.fetchone()[0]
 query_size=10000
 lower_bound=0
+if min!=None:
+    lower_bound=min+1
 upper_bound= (max - max % query_size) + query_size + 1
 #upper_bound=1000
+
+cursor.execute('SELECT max("TimestampId") FROM "Timestamps";')
+tsMax=cursor.fetchone()[0]
+cursor.execute('SELECT max("CoordinateId") FROM "Coordinates";')
+coordMax=cursor.fetchone()[0]
+cursor.execute('SELECT max("AddressId") FROM "Addresses";')
+addrMax=cursor.fetchone()[0]
+
+timestampId = tsMax+1 if tsMax != None else 0
+coordinateId = coordMax+1 if coordMax != None else 0
+addressId = addrMax+1 if addrMax != None else 0
+accidentId = lower_bound
+
+
 print(f"found {max} rows")
 print("Starting Requests")
 select="crash_date,crash_time,latitude,longitude,borough,zip_code,on_street_name,off_street_name,cross_street_name,number_of_persons_injured,number_of_persons_killed,number_of_pedestrians_injured,number_of_pedestrians_killed,number_of_cyclist_injured,number_of_cyclist_killed,number_of_motorist_injured,number_of_motorist_killed,contributing_factor_vehicle_1,contributing_factor_vehicle_2,contributing_factor_vehicle_3,contributing_factor_vehicle_4,contributing_factor_vehicle_5,collision_id,vehicle_type_code_1,vehicle_type_code_2,vehicle_type_code_3,vehicle_type_code_4,vehicle_type_code_5"
-for bound in range(0, upper_bound, query_size):
+for bound in range(lower_bound, upper_bound, query_size):
     print(f"Querying entries {bound} to {bound + query_size}")
     cursor.execute(f'SELECT {select} FROM "Staging" LIMIT {query_size} OFFSET {bound};')
     results=cursor.fetchall()
@@ -186,8 +201,15 @@ for bound in range(0, upper_bound, query_size):
                 if vehicleIds[n] != None:
                     accidentDict[f'Vehicle{n+1}Id']=vehicleIds[n]
             accidentDict["NrVehicles"] = nrVehicles
-            accidentDict["NrInjured"]=int(result[9])
-            accidentDict["NrKilled"]=int(result[10])
+            if result[9]!=None:
+                accidentDict["NrInjured"]=int(result[9])
+            else:
+                accidentDict["NrInjured"] = 0
+            if result[10] != None:
+                accidentDict["NrKilled"]=int(result[10])
+            else:
+                accidentDict["NrKilled"] = 0
+
             accidentDict["NrVictims"]=accidentDict["NrInjured"]+accidentDict["NrKilled"]
             accidentDict["TimestampId"] = timestampId
             accidentDict["CoordinateId"] = coordinateId
@@ -199,8 +221,8 @@ for bound in range(0, upper_bound, query_size):
             coordinateId += 1
             timestampId += 1
             addressId += 1
-            accidentId += 1
-    print(f'\n{round(bound/upper_bound*100)}% Done')
+            accidentId += 1e
+    print(f'\n{round(((bound-lower_bound)/(upper_bound-lower_bound))*100)}% Done')
 
 
 print("Done")
