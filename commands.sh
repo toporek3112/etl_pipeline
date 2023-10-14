@@ -3,10 +3,13 @@ docker run --name postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=passwo
 # run pgAdmin 
 docker run -p 5050:80 \
     -e 'PGADMIN_DEFAULT_EMAIL=admin@admin.com' \
-    -e 'PGADMIN_DEFAULT_PASSWORD=password' \
+    -e 'PGADMIN_DEFAULT_PASSWORD=postgres' \
     --name pgadmin \
     -d dpage/pgadmin4
 # http://localhost:5050
+
+# get postgres ip
+docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' postgres
 
 # connect to postgres
 docker run --rm --link postgres:postgres -it postgres psql -h postgres -U postgres -d postgres
@@ -41,3 +44,5 @@ UNION
 UNION
 (SELECT vehicle_type_code_5 FROM staging)
 ORDER BY 1
+
+Select 

@@ -32,52 +32,56 @@ CREATE TABLE IF NOT EXISTS staging (
 
 CREATE TABLE IF NOT EXISTS dim_contributing_factors (
     contributing_factor_id SERIAL PRIMARY KEY,
-    contributing_factor TEXT
+    contributing_factor VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS dim_vehicles (
     vehicle_id SERIAL PRIMARY KEY,
-    vehicle_type TEXT
+    vehicle_type VARCHAR(255)
 );
 
--- CREATE TABLE IF NOT EXISTS dim_contributing_factors (
---     contributing_factor_id SERIAL PRIMARY KEY,
---     contributing_factor_original TEXT,
---     contributing_factor_corrected TEXT
--- );
+CREATE TABLE IF NOT EXISTS dim_addresses (
+    address_id SERIAL PRIMARY KEY,
+    borough VARCHAR(255),
+    zip_code VARCHAR(255),
+    on_street_name VARCHAR(255),
+    cross_street_name VARCHAR(255),
+    off_street_name VARCHAR(255)
+);
 
--- CREATE TABLE IF NOT EXISTS dim_vehicles (
---     vehicle_id SERIAL PRIMARY KEY,
---     vehicle_type_original TEXT,
---     vehicle_type_corrected TEXT
--- );
+CREATE TABLE IF NOT EXISTS dim_timestamps (
+    timestamp_id SERIAL PRIMARY KEY,
+    hour INTEGER,
+    day INTEGER,
+    month INTEGER,
+    year INTEGER,
+    date_obj TIMESTAMP
+);
 
--- commands
--- select count(staging.borough), staging.borough from staging group by borough order by count;
--- select count(staging.zip_code), staging.zip_code from staging group by zip_code order by count;
--- select count(staging.on_street_name), staging.on_street_name from staging group by staging.on_street_name order by count;
--- select count(staging.off_street_name), staging.off_street_name from staging group by staging.off_street_name order by count DESC, staging.off_street_name ASC;
+CREATE TABLE IF NOT EXISTS dim_coordinates (
+    coordinates_id SERIAL PRIMARY KEY,
+    latitude DECIMAL(9,6) NOT NULL, 
+    longitude DECIMAL(9,6) NOT NULL
+);
 
--- SELECT 
---     COUNT(TRIM(staging.off_street_name)) AS count_off_street_name, 
---     TRIM(staging.off_street_name) AS trimmed_off_street_name 
--- FROM 
---     staging 
--- GROUP BY 
---     TRIM(staging.off_street_name) 
--- ORDER BY 
---     count_off_street_name DESC, 
---     trimmed_off_street_name ASC;
-
--- SELECT 
---     COUNT(staging.off_street_name) AS count_off_street_name, 
---     LOWER(staging.off_street_name) AS lowercase_off_street_name 
--- FROM 
---     staging 
--- GROUP BY 
---     LOWER(staging.off_street_name) 
--- ORDER BY 
---     count_off_street_name DESC, 
---     lowercase_off_street_name ASC;
-
-  
+CREATE TABLE fact_accidents (
+    accident_id SERIAL PRIMARY KEY,
+    collision_id INTEGER,
+    n_vehicles INTEGER,
+    n_victims INTEGER,
+    timestamp_id INTEGER,
+    address_id INTEGER,
+    coordinate_id INTEGER,
+    vehicle1_id INTEGER,
+    vehicle2_id INTEGER,
+    vehicle3_id INTEGER,
+    vehicle4_id INTEGER,
+    vehicle5_id INTEGER,
+    n_injured INTEGER,
+    n_killed INTEGER,
+    contributing_factor1_id INTEGER,
+    contributing_factor2_id INTEGER,
+    contributing_factor3_id INTEGER,
+    contributing_factor4_id INTEGER,
+    contributing_factor5_id INTEGER
+);
