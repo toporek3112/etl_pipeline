@@ -1,0 +1,10 @@
+{
+  "staging_table_name": "staging",
+  "database_settings": {
+      "database": "postgres",
+      "user": "postgres",
+      "password": "password",
+      "host": "localhost",
+      "port": "5432"
+  }
+}

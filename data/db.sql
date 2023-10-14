@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS staging_02 (
+CREATE TABLE IF NOT EXISTS staging (
     crash_date DATE,
     crash_time TIME,
     borough TEXT,
@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS staging_02 (
     latitude FLOAT,
     longitude FLOAT,
     on_street_name TEXT,
-    cross_street_name TEXT
+    cross_street_name TEXT,
     off_street_name TEXT,
     number_of_persons_injured INT,
     number_of_persons_killed INT,
@@ -26,8 +26,31 @@ CREATE TABLE IF NOT EXISTS staging_02 (
     vehicle_type_code_2 TEXT,
     vehicle_type_code_3 TEXT,
     vehicle_type_code_4 TEXT,
-    vehicle_type_code_5 TEXT,
+    vehicle_type_code_5 TEXT
 );
+
+
+CREATE TABLE IF NOT EXISTS dim_contributing_factors (
+    contributing_factor_id SERIAL PRIMARY KEY,
+    contributing_factor TEXT
+);
+
+CREATE TABLE IF NOT EXISTS dim_vehicles (
+    vehicle_id SERIAL PRIMARY KEY,
+    vehicle_type TEXT
+);
+
+-- CREATE TABLE IF NOT EXISTS dim_contributing_factors (
+--     contributing_factor_id SERIAL PRIMARY KEY,
+--     contributing_factor_original TEXT,
+--     contributing_factor_corrected TEXT
+-- );
+
+-- CREATE TABLE IF NOT EXISTS dim_vehicles (
+--     vehicle_id SERIAL PRIMARY KEY,
+--     vehicle_type_original TEXT,
+--     vehicle_type_corrected TEXT
+-- );
 
 -- commands
 -- select count(staging.borough), staging.borough from staging group by borough order by count;

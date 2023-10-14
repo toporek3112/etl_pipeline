@@ -1,0 +1,56 @@
+Driver Inattention/Distraction
+Following Too Closely
+Failure to Yield Right-of-Way
+Passing Too Closely
+Tire Failure/Inadequate
+Unsafe Lane Changing
+Driver Inexperience
+Turning Improperly
+Backing Unsafely
+Traffic Control Disregarded
+Other Vehicular
+Alcohol Involvement
+Passing or Lane Usage Improper
+View Obstructed/Limited
+Reaction to Uninvolved Vehicle
+Illnes
+Unsafe Speed
+Fell Asleep
+Brakes Defective
+Pedestrian/Bicyclist/Other Pedestrian Error/Confusion
+Steering Failure
+Oversized Vehicle
+Passenger Distraction
+Pavement Slippery
+Lane Marking Improper/Inadequate
+Aggressive Driving/Road Rage
+Outside Car Distraction
+Traffic Control Device Improper/Non-Working
+Fatigued/Drowsy
+Lost Consciousness
+Pavement Defective
+Cell Phone (hand-Held)
+Drugs (illegal)
+Obstruction/Debris
+Glare
+Accelerator Defective
+Driverless/Runaway Vehicle
+Animals Action
+Vehicle Vandalism
+Failure to Keep Right
+Tow Hitch Defective
+Other Electronic Device
+Prescription Medication
+Using On Board Navigation Device
+Windshield Inadequate
+Physical Disability
+Eating or Drinking
+Other Lighting Defects
+Headlights Defective
+Tinted Windows
+Texting
+Cell Phone (hands-free)
+Listening/Using Headphones
+Shoulders Defective/Improper
+Unspecified
+nan
