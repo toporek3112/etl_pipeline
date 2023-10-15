@@ -5,23 +5,41 @@ This readme describes how to setup a ETL proess on the dataset [Motor Vehicle Co
 Overall this repo contains three python scripts which are responsible for handling the ETL process:
 
 * 01_insertIntoStagingTable.py
-  * Fetches filtered data from the Socrata API 
+  * Fetches data from the Socrata API 
   * Removes whitespaces from strings
   * And saves it into the staging table
 * 02_prepareForCorrection
-  * Prepares two csv files in the /data folder (stagingContributingFactorsCorrected.csv, stagingVehicleTypesCorrected.csv) for correction
+  * Prepares two csv files in the /data folder (stagingContributingFactorsCorrected.csv, stagingVehicleTypesCorrected.csv) for correction (must be done manually)
 * 03_insertIntoTables
   * Inserts corrected data from the staging table into the respective dimension and fact tables
 
+After the data has been aquired and processed it is ready to be visualized. In this case Grafana was choosen as the one to go with. Althou Grafana is not a common BI tool and is mostly used for monitoring purposes it also can connect to datasources like PostgreSQL. This allows makes it possible to query and visualize the data which was prepared in the ETL process.
+
 ## Prerequisite
 * docker installed
+* docker-compose installed
 
 ## Setup
-Before you can start the ETL process the database needs to be setup.
+Before starting the ETL process the database and Grafana need to be setup. 
 
-Start PostgreSQL 
 ```console
-docker run --name postgres -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=postgres -d postgres:latest
+docker-compose up -d # no persistence 
+docker-compose -f docker-compose.yaml -f docker-compose.overwrite.yaml up -d # with persistence
+```
+Note: if you want persistence make sure to create /tmp/postgres beforehand
+
+| Service | URL                   |
+| ------- | --------------------- |
+| Grafana | http://localhost:3000 |
+| pgAdmin | http://localhost:5050 |
+
+check if containers are running
+```console
+docker ps
+CONTAINER ID   IMAGE            ...  COMMAND                 NAMES
+fcad8de55573   postgres:latest  ...  "docker-entrypoint.s…"  postgres
+5150b51d754e   grafana/grafana  ...  "/run.sh"               grafana
+2aac06afdf10   dpage/pgadmin4   ...  "/entrypoint.sh"        pgadmin
 ```
 
 Create Database 
@@ -40,14 +58,7 @@ docker run --rm --link postgres:postgres -it postgres psql -h postgres -U postgr
 pgcli -h localhost -U postgres -d postgres
 ```
 
-### Optional
-Start pgAdmin
-```console
-docker run --name pgadmin -p 5050:80  -e 'PGADMIN_DEFAULT_EMAIL=admin@admin.com' -e 'PGADMIN_DEFAULT_PASSWORD=postgres' -d dpage/pgadmin4
-```
-pgAdmin: http://localhost:5050
-
-Get postgres IP so you can connect to it in pgAdmin
+Get postgres IP so you can connect to it in pgAdmin and Grafana
 ```console
 docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' postgres
 ```
@@ -66,11 +77,11 @@ Note: This script can take up to ~30min to fetch, clear and insert the data to t
 python3 02_prepareForCorrection.py
 ```
 
-After this script finishes you should see two new files in the data folder:
+After this script finishes it creates two new files in the data folder:
 * stagingContributingFactorsCorrected.csv
 * stagingVehicleTypesCorrected.csv
 
-These csv files have to columns 'original' and 'corrected'. Before you can proceed with the ETL process it is advised to go throug them and check for any inconsistencies which can be corrected. Simply put a value into the 'corrected' column and the original value will be replaced in the next step when writing to the respective dimension and fact tables.
+These csv files have to columns 'original' and 'corrected'. Before the ETL process can proceed it is advised to go throug the files and check for any inconsistencies which can be corrected. Simply put a value into the 'corrected' column and the original value will be replaced in the next step when writing to the respective dimension and fact tables.
 
 3. Execute thrid script
 ```console
@@ -80,15 +91,5 @@ This script is the final one and inserts the data from the staging tabe to the d
 Note: this script can also take up to ~30min
 
 ## Visualization
-For visualization we have chosen a simple yet good enought approche using Grafana. Althou Grafana is not a common BI tool and is mostly used for monitoring purposes it also can connect to datasources like PostgreSQL. This allows us to query and visualize the data which we prepared in the ETL process.
 
-Start Grafana
-```console
-docker run -d --name=grafana -p 3000:3000 -e GF_SECURITY_ADMIN_USER=postgres -e GF_SECURITY_ADMIN_PASSWORD=postgres grafana/grafana
-```
 Grafana: http://localhost:3000
-
-First thing to do in Grafana is to setup the postgres Datasource. Go to: Connections > Add new connection > select PostgreSQL > create new datasource. Here input the postgres IP and Port (see command above), input the correct database (nyc_motor_vechicle_collisions), the user (postgres) and disable TLS/SSL Mode.
-
-After that to click the button on the top right corner and click import dashboard.
-There you select a file from the data folder or paste in the json.
