@@ -1,0 +1,20 @@
+apiVersion: 1
+
+datasources:
+  - name: Postgres_NYC-Motor-Vechicle-Collisions
+    type: postgres
+    url: 172.17.0.2:5432
+    # access: proxy
+    database: nyc_motor_vechicle_collisions
+    user: postgres
+    # Assuming you have a password, add it here. If not, remove the next line.
+    secureJsonData:
+      password: "postgres"
+    isDefault: true
+    jsonData:
+      connMaxLifetime: 14400
+      maxIdleConns: 100
+      maxIdleConnsAuto: true
+      maxOpenConns: 100
+      postgresVersion: 1400
+      sslmode: disable

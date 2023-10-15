@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "uid": "c652e0e5-79cf-4dea-8bf4-98b7177394fc",
+    "orgId": 1,
+    "name": "Postgres_NYC-Motor-Vechicle-Collisions",
+    "type": "postgres",
+    "typeName": "PostgreSQL",
+    "typeLogoUrl": "public/app/plugins/datasource/postgres/img/postgresql_logo.svg",
+    "access": "proxy",
+    "url": "172.17.0.2:5432",
+    "user": "postgres",
+    "database": "",
+    "basicAuth": false,
+    "isDefault": true,
+    "jsonData": {
+      "connMaxLifetime": 14400,
+      "database": "nyc_motor_vechicle_collisions",
+      "maxIdleConns": 100,
+      "maxIdleConnsAuto": true,
+      "maxOpenConns": 100,
+      "postgresVersion": 1400,
+      "sslmode": "disable"
+    },
+    "readOnly": false
+  }
+]

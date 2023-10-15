@@ -34,10 +34,7 @@
       "type": "row"
     },
     {
-      "datasource": {
-        "type": "postgres",
-        "uid": "a642f26e-3d43-48b9-8b26-d71ef68faf40"
-      },
+      "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -112,10 +109,7 @@
       },
       "targets": [
         {
-          "datasource": {
-            "type": "postgres",
-            "uid": "a642f26e-3d43-48b9-8b26-d71ef68faf40"
-          },
+          "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
@@ -144,10 +138,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "postgres",
-        "uid": "a642f26e-3d43-48b9-8b26-d71ef68faf40"
-      },
+      "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -190,10 +181,7 @@
       "pluginVersion": "10.1.5",
       "targets": [
         {
-          "datasource": {
-            "type": "postgres",
-            "uid": "a642f26e-3d43-48b9-8b26-d71ef68faf40"
-          },
+          "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
@@ -222,10 +210,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "postgres",
-        "uid": "a642f26e-3d43-48b9-8b26-d71ef68faf40"
-      },
+      "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -268,10 +253,7 @@
       "pluginVersion": "10.1.5",
       "targets": [
         {
-          "datasource": {
-            "type": "postgres",
-            "uid": "a642f26e-3d43-48b9-8b26-d71ef68faf40"
-          },
+          "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
@@ -313,10 +295,7 @@
       "type": "row"
     },
     {
-      "datasource": {
-        "type": "postgres",
-        "uid": "a642f26e-3d43-48b9-8b26-d71ef68faf40"
-      },
+      "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -404,10 +383,7 @@
       "pluginVersion": "10.1.5",
       "targets": [
         {
-          "datasource": {
-            "type": "postgres",
-            "uid": "a642f26e-3d43-48b9-8b26-d71ef68faf40"
-          },
+          "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
@@ -436,10 +412,7 @@
       "type": "geomap"
     },
     {
-      "datasource": {
-        "type": "postgres",
-        "uid": "a642f26e-3d43-48b9-8b26-d71ef68faf40"
-      },
+      "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -514,10 +487,7 @@
       "pluginVersion": "10.1.5",
       "targets": [
         {
-          "datasource": {
-            "type": "postgres",
-            "uid": "a642f26e-3d43-48b9-8b26-d71ef68faf40"
-          },
+          "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
@@ -546,10 +516,7 @@
       "type": "barchart"
     },
     {
-      "datasource": {
-        "type": "postgres",
-        "uid": "a642f26e-3d43-48b9-8b26-d71ef68faf40"
-      },
+      "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -624,10 +591,7 @@
       "pluginVersion": "10.1.5",
       "targets": [
         {
-          "datasource": {
-            "type": "postgres",
-            "uid": "a642f26e-3d43-48b9-8b26-d71ef68faf40"
-          },
+          "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
@@ -668,10 +632,7 @@
           "text": "hour",
           "value": "hour"
         },
-        "datasource": {
-          "type": "postgres",
-          "uid": "a642f26e-3d43-48b9-8b26-d71ef68faf40"
-        },
+        "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
         "definition": "SELECT column_name\nFROM information_schema.columns\nWHERE \n    table_name = 'dim_timestamps' AND \n    table_schema = 'public' AND \n    column_name != 'timestamp_id'\nORDER BY ordinal_position;",
         "hide": 0,
         "includeAll": false,

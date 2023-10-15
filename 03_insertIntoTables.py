@@ -2,8 +2,7 @@ import psycopg2
 import pandas as pd
 import sys
 import json
-import time
-from datetime import timedelta
+from utils.time_decorator import timer
 
 with open('db_config.json', 'r') as file:
     config = json.load(file)
@@ -230,17 +229,16 @@ def insert_accident_data(cursor, data_chunk, table_name, contributing_factors, v
 
     cursor.executemany(query, accident_data)
 
+@timer
 def main():
     conn, cursor = setup_db_connection()
     print("")
-
-    start_time = time.time()
 
     # Check if staging table has rows
     print("Fetching rows count from staging table")
     cursor.execute(f"SELECT COUNT(*) FROM {STAGING_TABLE_NAME}")
     total_rows = cursor.fetchone()[0]
-    chunk_size = 5000
+    chunk_size = 1000
 
     if total_rows is None:
         print("Staging table is empty!")
@@ -311,15 +309,6 @@ def main():
 
     cursor.close()
     conn.close()
-
-    end_time = time.time()
-    elapsed_time = end_time - start_time
-    elapsed_timedelta = timedelta(seconds=elapsed_time)
-    hours, remainder = divmod(elapsed_timedelta.seconds, 3600)
-    minutes, seconds = divmod(remainder, 60)
-
-    # Print the elapsed time
-    print(f"Script took {hours} hours, {minutes} minutes, and {seconds} seconds to run.")
 
 if __name__ == "__main__":
     main()

@@ -1,9 +1,9 @@
 {
   "staging_table_name": "staging",
   "database_settings": {
-      "database": "postgres",
+      "database": "nyc_motor_vechicle_collisions",
       "user": "postgres",
-      "password": "password",
+      "password": "postgres",
       "host": "localhost",
       "port": "5432"
   }

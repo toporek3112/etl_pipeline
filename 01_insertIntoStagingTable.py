@@ -2,6 +2,7 @@ import psycopg2
 from sodapy import Socrata
 import sys
 import json
+from utils.time_decorator import timer
 
 with open('db_config.json', 'r') as file:
     config = json.load(file)
@@ -10,14 +11,14 @@ STAGING_TABLE_NAME=config['staging_table_name']
 DATABASE_SETTINGS = config['database_settings']
 
 def setup_db_connection():
-    print("Setup Database Connection")
+    print("Setup Database Connection...")
     conn = psycopg2.connect(**DATABASE_SETTINGS)
     conn.autocommit = False
     cursor = conn.cursor()
     return conn, cursor
 
 def setup_api_connection():
-    print('Setup API connection')
+    print('Setup API connection...')
     return Socrata("data.cityofnewyork.us", "mZ2a4QZWgW1U6H36nLENWBkuE")
 
 def progress_bar(cur_index: int, total: int):
@@ -26,6 +27,37 @@ def progress_bar(cur_index: int, total: int):
     sys.stdout.write('\r')
     sys.stdout.write('['+'='*prog+'.'*(20-prog)+f'] {percent}%')
     sys.stdout.flush()
+
+def cleanup_data(results):
+    cleanup_data = []
+    for row in results:
+        for key, value in row.items():
+            if isinstance(value, str):
+                row[key] = value.strip()
+
+        # Convert numerical fields to actual number types (int or float)
+        numeric_fields = [
+            'latitude', 'longitude', 'number_of_persons_injured', 'number_of_persons_killed',
+            'number_of_pedestrians_injured', 'number_of_pedestrians_killed',
+            'number_of_cyclist_injured', 'number_of_cyclist_killed',
+            'number_of_motorist_injured', 'number_of_motorist_killed', 'collision_id'
+        ]
+
+        for field in numeric_fields:
+            field_value = row.get(field)
+            if field_value is not None:
+                if '.' in field_value:  # Convert to float if it has a decimal point
+                    row[field] = float(field_value)
+                else:
+                    row[field] = int(field_value)
+
+        # Handle special cases for certain fields
+        if row.get('zip_code') is None:
+            row['zip_code'] = '-1'
+
+        cleanup_data.append(row)
+    
+    return cleanup_data
 
 def insert_to_staging(cursor, results, staging_table_name: str):
     expected_columns = [
@@ -48,25 +80,38 @@ def insert_to_staging(cursor, results, staging_table_name: str):
     query = f'INSERT INTO {staging_table_name} ({columns}) VALUES ({placeholders})'
     cursor.executemany(query, data)
 
+@timer
 def main():
     conn, cursor = setup_db_connection()
     client = setup_api_connection()
     total = 0
 
+    print("")
     print("Checking total amount of data:")
-    rows_count = int(client.get("h9gi-nx95", select='max(collision_id)')[0]["max_collision_id"])
+    api_max_collision_id = int(client.get("h9gi-nx95", select='max(collision_id)')[0]["max_collision_id"])
     request_size = 20000
     cursor.execute(f'SELECT MAX(collision_id) FROM {STAGING_TABLE_NAME};')
-    dbRes = cursor.fetchone()[0]
-    lower_bound = dbRes+1 if dbRes is not None else 0
-    upper_bound = (rows_count - rows_count % request_size) + request_size + 1
+    db_max_collision_id = cursor.fetchone()[0]
 
-    print(f"found {rows_count} rows")
+    print(f"DB max collision ID: {db_max_collision_id}")
+    print(f"API max collision ID: {api_max_collision_id}")
+    print("")
+
+    if db_max_collision_id is not None and db_max_collision_id >= api_max_collision_id:
+        print("Staging table is up to date with OpenData API")
+        print("exiting...")
+        return
+
+    lower_bound = db_max_collision_id+1 if db_max_collision_id is not None else 0
+    upper_bound = (api_max_collision_id - api_max_collision_id % request_size) + request_size + 1
+
+    print(f"found {api_max_collision_id} rows")
     print("Starting Requests")
+    print("")
 
     select = 'crash_date,crash_time,borough,zip_code,latitude,longitude,on_street_name,cross_street_name,off_street_name,number_of_persons_injured,number_of_persons_killed,number_of_pedestrians_injured,number_of_pedestrians_killed,number_of_cyclist_injured,number_of_cyclist_killed,number_of_motorist_injured,number_of_motorist_killed,contributing_factor_vehicle_1,contributing_factor_vehicle_2,contributing_factor_vehicle_3,contributing_factor_vehicle_4,contributing_factor_vehicle_5,collision_id,vehicle_type_code1 as vehicle_type_code_1,vehicle_type_code2 as vehicle_type_code_2,vehicle_type_code_3,vehicle_type_code_4,vehicle_type_code_5'
     for bound in range(lower_bound, upper_bound, request_size):
-        print(f'requesting id {bound} to {bound + request_size} from {rows_count}')
+        print(f'requesting id {bound} to {bound + request_size} from {api_max_collision_id}')
         where = (
             f'collision_id >= {bound} and collision_id < {bound+request_size} and ('
             'contributing_factor_vehicle_1 != "Unspecified" or '
@@ -88,11 +133,12 @@ def main():
         print(f'found {len(results)} results')
         print('Writing to Staging Database')
 
-        insert_to_staging(cursor, results, STAGING_TABLE_NAME)
+        cleanuped_results = cleanup_data(results)
+        insert_to_staging(cursor, cleanuped_results, STAGING_TABLE_NAME)
         conn.commit()
 
         # print(f'\n{round(bound / upper_bound * 100)}% Done')
-        progress_bar(lower_bound + total, rows_count)
+        progress_bar(lower_bound + total, api_max_collision_id)
         print('')
 
     print(f"sum: {total}")
