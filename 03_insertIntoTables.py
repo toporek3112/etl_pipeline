@@ -30,7 +30,7 @@ def get_id(row, result_dict):
     return res
 
 def insert_into_dimension(cursor, table_name, columns, data):
-    truncate_table(cursor, table_name)
+    cursor.execute(f"TRUNCATE TABLE {table_name} RESTART IDENTITY CASCADE;")
     print(f"Inserting into dimension table {table_name}")
 
     # Build the values string for the query
@@ -151,8 +151,8 @@ def insert_address_data(cursor, data_chunk, table_name):
 def insert_accident_data(cursor, data_chunk, table_name, contributing_factors, vehicle_types, timestamps_ids, addresses_ids, coordinates_ids):
     accident_data = []
     for i, row in enumerate(data_chunk):
-        n_vehicles = sum(1 for vehicle_type in row[23:28] if vehicle_type is not None)  # Assuming vehicle ids are in columns 25-29
-        n_victims = n_victims = sum((0 if value is None else value) for value in (row[j] for j in range(9, 17)))  # Summing values from number_of_persons_injured to number_of_motorist_killed
+        n_vehicles = sum(1 for vehicle_type in row[23:28]) # Assuming vehicle ids are in columns 25-29
+        n_victims = sum((0 if value is None else value) for value in (row[j] for j in range(9, 17)))  # Summing values from number_of_persons_injured to number_of_motorist_killed
         
         if n_victims != 0:
             n_injured = n_injured = sum((0 if value is None else value) for value in (row[j] for j in range(9, 16, 2)))  # Summing the injured counts from each category
@@ -228,18 +228,19 @@ def main():
     
     print("")
 
-    # Load corrected contributing factors
+    # Load corrected contributing factors from csv file from script 02_prepareForCorrection.py
     contributing_factors = pd.read_csv("data/stagingContributingFactorsCorrected.csv")
     columns = ["contributing_factor"]
     contributing_factors = insert_into_dimension(cursor, "dim_contributing_factors", columns, contributing_factors)
 
     print("")
 
-    # Load corrected vechicle types
+    # Load corrected vechicle types from csv file from script 02_prepareForCorrection.py
     vehicle_types = pd.read_csv("data/stagingVehicleTypesCorrected.csv")
     columns = ["vehicle_type"]
     vehicle_types = insert_into_dimension(cursor, "dim_vehicles", columns, vehicle_types)
     
+    # Select rows count to set lower bound
     cursor.execute(f'select count(*) from fact_accidents;')
     dbRes = cursor.fetchone()[0]
     lower_bound = dbRes+1 if dbRes is not None else 0

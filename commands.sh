@@ -22,6 +22,11 @@ docker run -d --name=grafana -p 3000:3000 -e GF_SECURITY_ADMIN_USER=postgres -e 
 # export datasource
 curl -u postgres:postgres http://localhost:3000/api/datasources
 
+###### docker compose ######
+docker-compose -f docker-compose.yaml -f docker-compose.overwrite.yaml up -d # with persistence 
+docker-compose up -d # no persistence
+
+
 # Database commands
 SELECT contributing_factor_vehicle_1, contributing_factor_vehicle_2, contributing_factor_vehicle_3, contributing_factor_vehicle_4, contributing_factor_vehicle_5 FROM staging;
 SELECT contributing_factor_vehicle_1 FROM staging where contributing_factor_vehicle_1 == NULL;
