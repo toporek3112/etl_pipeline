@@ -18,6 +18,8 @@ pgcli -h localhost -U postgres -d postgres
 # create db tables 
 docker run --rm --link postgres:postgres -v $(pwd)/data:/tmp -it postgres psql -h postgres -U postgres -d postgres -a -f /tmp/db.sql
 
+docker run -d --name=grafana -p 3000:3000 -e GF_SECURITY_ADMIN_USER=postgres -e GF_SECURITY_ADMIN_PASSWORD=postgres grafana/grafana
+# http://localhost:3000
 
 # Database commands
 SELECT contributing_factor_vehicle_1, contributing_factor_vehicle_2, contributing_factor_vehicle_3, contributing_factor_vehicle_4, contributing_factor_vehicle_5 FROM staging;
@@ -45,4 +47,31 @@ UNION
 (SELECT vehicle_type_code_5 FROM staging)
 ORDER BY 1
 
-Select 
+SELECT *
+FROM fact_accidents fa
+JOIN dim_timestamps dt ON fa.timestamp_id = dt.timestamp_id;
+
+SELECT 
+  n_vehicles AS "Vehivles Involved", 
+  n_victims AS "Victims",
+  n_injured AS "Injured",
+  n_killed AS "Killed",
+  fa.timestamp_id,
+  dt.timestamp_id AS "timestamp_id_dt",
+  hour,
+  day,
+  month,
+  year
+FROM fact_accidents fa
+JOIN dim_timestamps dt ON fa.timestamp_id = dt.timestamp_id 
+LIMIT 50 
+
+SELECT 
+  SUM(n_killed) AS "Killed",
+  fa.timestamp_id,
+  dt.timestamp_id AS "timestamp_id_dt",
+  year
+FROM fact_accidents fa
+JOIN dim_timestamps dt ON fa.timestamp_id = dt.timestamp_id
+GROUP BY year
+LIMIT 50 
