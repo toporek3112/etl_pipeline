@@ -1,5 +1,4 @@
 {
-  "staging_table_name": "staging",
   "database_settings": {
       "database": "nyc_motor_vechicle_collisions",
       "user": "postgres",

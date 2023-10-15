@@ -1,21 +1,7 @@
-import psycopg2
 import pandas as pd
 import sys
-import json
 from utils.time_decorator import timer
-
-with open('db_config.json', 'r') as file:
-    config = json.load(file)
-
-STAGING_TABLE_NAME=config['staging_table_name']
-DATABASE_SETTINGS = config['database_settings']
-
-def setup_db_connection():
-    print("Setup Database Connection")
-    conn = psycopg2.connect(**DATABASE_SETTINGS)
-    conn.autocommit = False
-    cursor = conn.cursor()
-    return conn, cursor
+from utils.database import setup_db_connection, DB_CONFIG
 
 def progress_bar(cur_index:int,total:int):
     percent = round((cur_index+1) / total * 100)
@@ -37,14 +23,6 @@ def correct(corrections_df):
     corrected_series = corrected_series.drop_duplicates().reset_index(drop=True)  # Remove duplicates and reset index
     
     return corrected_series
-
-def truncate_table(cursor, table_name):
-    query = f"TRUNCATE TABLE {table_name} RESTART IDENTITY CASCADE;"
-    try:
-        cursor.execute(query)
-        print(f"Successfully truncated the {table_name} table and reset its identity column.")
-    except Exception as e:
-        print(f"An error occurred: {e}")
 
 def get_id(row, result_dict):
     value = row['corrected'] if not pd.isna(row['corrected']) else row['original']
@@ -236,7 +214,7 @@ def main():
 
     # Check if staging table has rows
     print("Fetching rows count from staging table")
-    cursor.execute(f"SELECT COUNT(*) FROM {STAGING_TABLE_NAME}")
+    cursor.execute(f"SELECT COUNT(*) FROM {DB_CONFIG.TABLE_NAMES['STAGING_TABLE_NAME']}")
     total_rows = cursor.fetchone()[0]
     chunk_size = 1000
 
@@ -248,10 +226,6 @@ def main():
     print("Starting preparing dimension tables...")
     print("")
     
-    # truncate_table(cursor, "dim_addresses")
-    # truncate_table(cursor, "dim_coordinates")
-    # truncate_table(cursor, "dim_timestamps")
-    # truncate_table(cursor, "fact_accidents")
     print("")
 
     # Load corrected contributing factors
@@ -278,7 +252,7 @@ def main():
         progress_bar(offset, total_rows)
         print("")
 
-        cursor.execute(f"SELECT * FROM {STAGING_TABLE_NAME} LIMIT {chunk_size} OFFSET {offset}")
+        cursor.execute(f"SELECT * FROM {DB_CONFIG.TABLE_NAMES['STAGING_TABLE_NAME']} LIMIT {chunk_size} OFFSET {offset}")
         data_chunk = cursor.fetchall()
         
         # insert timestamp

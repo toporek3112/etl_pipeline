@@ -1,21 +1,11 @@
-import psycopg2
-from sodapy import Socrata
 import sys
 import json
+from sodapy import Socrata
 from utils.time_decorator import timer
+from utils.database import setup_db_connection, DB_CONFIG
 
 with open('db_config.json', 'r') as file:
     config = json.load(file)
-
-STAGING_TABLE_NAME=config['staging_table_name']
-DATABASE_SETTINGS = config['database_settings']
-
-def setup_db_connection():
-    print("Setup Database Connection...")
-    conn = psycopg2.connect(**DATABASE_SETTINGS)
-    conn.autocommit = False
-    cursor = conn.cursor()
-    return conn, cursor
 
 def setup_api_connection():
     print('Setup API connection...')
@@ -90,7 +80,7 @@ def main():
     print("Checking total amount of data:")
     api_max_collision_id = int(client.get("h9gi-nx95", select='max(collision_id)')[0]["max_collision_id"])
     request_size = 20000
-    cursor.execute(f'SELECT MAX(collision_id) FROM {STAGING_TABLE_NAME};')
+    cursor.execute(f"SELECT MAX(collision_id) FROM {DB_CONFIG.TABLE_NAMES['STAGING_TABLE_NAME']};")
     db_max_collision_id = cursor.fetchone()[0]
 
     print(f"DB max collision ID: {db_max_collision_id}")
@@ -134,7 +124,7 @@ def main():
         print('Writing to Staging Database')
 
         cleanuped_results = cleanup_data(results)
-        insert_to_staging(cursor, cleanuped_results, STAGING_TABLE_NAME)
+        insert_to_staging(cursor, cleanuped_results, DB_CONFIG.TABLE_NAMES['STAGING_TABLE_NAME'])
         conn.commit()
 
         # print(f'\n{round(bound / upper_bound * 100)}% Done')

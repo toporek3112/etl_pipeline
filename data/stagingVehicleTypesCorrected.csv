@@ -901,8 +901,8 @@ GRAY,
 GREEB,
 green,
 GREEN,
-GRUMM,
-Grumman LL,
+GRUMM,Aircraft
+Grumman LL,Aircraft
 GSPC,
 GTH-1056,
 Hand,
@@ -949,14 +949,14 @@ HWH,
 HWY C,
 Hyster For,
 I-haul,
-ice c,
-Ice C,
-ICE C,
-Ice Cream,
+ice c,ICE CREAM
+Ice C,ICE CREAM
+ICE C,ICE CREAM
+Ice Cream,ICE CREAM
 ICE CREAM,
 icecr,
-Illnes,
-Illness,
+Illnes,Ambulance
+Illness,Ambulance
 impal,
 INDUSTRIAL,
 INTE TRUCK,
@@ -1718,8 +1718,8 @@ TANK,
 TANK WH,
 TANKE,
 Tanker,
-taxi,
-Taxi,
+taxi,TAXI
+Taxi,TAXI
 TAXI,
 TCM,
 TCN,
@@ -2059,7 +2059,7 @@ Wheel,
 WHEEL,
 wheel barr,
 wheel load,
-wheelchair,
+wheelchair,WHEELCHAIR
 WHEELCHAIR,
 WHIT,
 white,
@@ -2093,9 +2093,9 @@ Yamah,
 Yamaha,
 yello,
 YELLO,
-YELLOW BUS,
-yellow cab,
-YELLOW TAX,
+YELLOW BUS,BUS
+yellow cab,TAXI
+YELLOW TAX,TAXI
 YLL P,
 YPS,
 yw,

@@ -1,19 +1,5 @@
-import psycopg2
-import json
 import csv
-
-with open('db_config.json', 'r') as file:
-    config = json.load(file)
-
-STAGING_TABLE_NAME=config['staging_table_name']
-DATABASE_SETTINGS = config['database_settings']
-
-def setup_db_connection():
-    print("Setup Database Connection")
-    conn = psycopg2.connect(**DATABASE_SETTINGS)
-    conn.autocommit = False
-    cursor = conn.cursor()
-    return conn, cursor
+from utils.database import setup_db_connection, DB_CONFIG
 
 def is_value_present(csv_data, value):
     return any(row['original'] == value for row in csv_data)
@@ -23,7 +9,7 @@ def get_unique_values(cursor, columns):
 
     query = f"""
         SELECT DISTINCT factor FROM (
-            {" UNION ALL ".join(f"(SELECT {column} AS factor FROM {STAGING_TABLE_NAME})" for column in columns)}
+            {" UNION ALL ".join(f"(SELECT {column} AS factor FROM {DB_CONFIG.TABLE_NAMES['STAGING_TABLE_NAME']})" for column in columns)}
         ) AS subquery
         ORDER BY factor
     """
