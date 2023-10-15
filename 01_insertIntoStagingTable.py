@@ -4,9 +4,6 @@ from sodapy import Socrata
 from utils.time_decorator import timer
 from utils.database import setup_db_connection, DB_CONFIG
 
-with open('db_config.json', 'r') as file:
-    config = json.load(file)
-
 def setup_api_connection():
     print('Setup API connection...')
     return Socrata("data.cityofnewyork.us", "mZ2a4QZWgW1U6H36nLENWBkuE")

@@ -9,16 +9,24 @@ def truncate_table(cursor, table_name):
         print(f"An error occurred: {e}")
 
 def main():
+
+    table_names = ["dim_addresses", "dim_coordinates", "dim_timestamps", "fact_accidents"]
+
+    response = input(f"WARNING! Tables {table_names} are going to be truncated (yes/no): ")
+    
+    if response.lower() != "yes":
+        print("exiting")
+        return
+
     # Setup the database connection using the function from db_utils
     conn, cursor = setup_db_connection()
 
-    truncate_table(cursor, "dim_addresses")
-    truncate_table(cursor, "dim_coordinates")
-    truncate_table(cursor, "dim_timestamps")
-    truncate_table(cursor, "fact_accidents")
+    for table_name in table_names:
+        truncate_table(cursor, table_name)
 
     # Remember to close the connection after using it.
     cursor.close()
+    conn.commit()
     conn.close()
 
 if __name__ == "__main__":
