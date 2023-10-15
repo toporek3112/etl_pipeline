@@ -1,5 +1,4 @@
 import psycopg2
-import pandas as pd
 from sodapy import Socrata
 import sys
 import json

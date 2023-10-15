@@ -2,7 +2,6 @@ import psycopg2
 import pandas as pd
 import sys
 import json
-import numpy as np
 import time
 from datetime import timedelta
 
