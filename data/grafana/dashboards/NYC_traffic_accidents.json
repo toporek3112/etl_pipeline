@@ -362,7 +362,7 @@
               "longitude": "longitude",
               "mode": "coords"
             },
-            "name": "Layer 1",
+            "name": "Accidents",
             "opacity": 1,
             "tooltip": true,
             "type": "heatmap"
