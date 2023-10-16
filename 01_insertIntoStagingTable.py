@@ -125,7 +125,7 @@ def main():
         conn.commit()
 
         # print(f'\n{round(bound / upper_bound * 100)}% Done')
-        progress_bar(lower_bound + total, api_max_collision_id)
+        progress_bar(bound + request_size, api_max_collision_id)
         print('')
 
     print(f"sum: {total}")

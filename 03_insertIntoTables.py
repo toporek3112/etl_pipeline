@@ -2,6 +2,7 @@ import pandas as pd
 import sys
 from utils.time_decorator import timer
 from utils.database import setup_db_connection, DB_CONFIG
+import numpy as np
 
 def progress_bar(cur_index:int,total:int):
     percent = round((cur_index+1) / total * 100)
@@ -86,8 +87,8 @@ def insert_timestamp_data(cursor, data_chunk, table_name):
 
     # Prepare data for insertion
     values_str_list = []
-    for row in data_chunk:
-        date_value, time_value = row[0], row[1]  # assuming the date and time are the first two columns
+    for i, row in data_chunk.iterrows():
+        date_value, time_value = row['crash_date'], row['crash_time']  # assuming the date and time are the first two columns
         hour = time_value.hour
         day = date_value.day
         month = date_value.month
@@ -112,7 +113,7 @@ def insert_timestamp_data(cursor, data_chunk, table_name):
     return timestamp_ids  # Return the list of timestamp_ids
 
 def insert_coordinates_data(cursor, data_chunk, table_name):
-    coordinates_data = [(row[4], row[5]) for row in data_chunk]  # Prepare data for insertion
+    coordinates_data = [(row['latitude'], row['longitude']) for i, row in data_chunk.iterrows()]  # Prepare data for insertion
     
     # Build the VALUES clauses and the data list for the query
     values_clauses = ', '.join(['(%s, %s)'] * len(coordinates_data))
@@ -129,7 +130,7 @@ def insert_coordinates_data(cursor, data_chunk, table_name):
 
 def insert_address_data(cursor, data_chunk, table_name):
     # Prepare data for insertion; assume that the relevant columns are at indices 2 to 7 in each row
-    address_data = [(row[2], row[3], row[6], row[7], row[8]) for row in data_chunk]
+    address_data = [(row['borough'], row['zip_code'], row['on_street_name'], row['cross_street_name'], row['off_street_name']) for i, row in data_chunk.iterrows()]
     
     # Build the VALUES clauses and the data list for the query
     values_clauses = ', '.join(['(%s, %s, %s, %s, %s)'] * len(address_data))
@@ -149,18 +150,14 @@ def insert_address_data(cursor, data_chunk, table_name):
     return address_ids
 
 def insert_accident_data(cursor, data_chunk, table_name, contributing_factors, vehicle_types, timestamps_ids, addresses_ids, coordinates_ids):
-    accident_data = []
-    for i, row in enumerate(data_chunk):
-        n_vehicles = sum(1 for vehicle_type in row[23:28]) # Assuming vehicle ids are in columns 25-29
-        n_victims = sum((0 if value is None else value) for value in (row[j] for j in range(9, 17)))  # Summing values from number_of_persons_injured to number_of_motorist_killed
-        
-        if n_victims != 0:
-            n_injured = n_injured = sum((0 if value is None else value) for value in (row[j] for j in range(9, 16, 2)))  # Summing the injured counts from each category
-            n_killed = n_killed = sum((0 if value is None else value) for value in (row[j] for j in range(10, 17, 2)))  # Summing the killed counts from each category
-        else:
-            n_injured = 0
-            n_killed = 0
+    # Perform vectorized operations outside the loop
+    n_vehicles = data_chunk.iloc[:, 23:28].notnull().sum(axis=1)
+    n_injured = data_chunk.iloc[:, 9:16:2].fillna(0).sum(axis=1)
+    n_killed = data_chunk.iloc[:, 10:17:2].fillna(0).sum(axis=1)
+    n_victims = n_injured + n_killed
 
+    accident_data = []
+    for i, row in data_chunk.iterrows():
         # Correct contributing factors using the dictionary
         corrected_contributing_factors = []
         for factor in row[17:22]:
@@ -180,29 +177,60 @@ def insert_accident_data(cursor, data_chunk, table_name, contributing_factors, v
             else:
                 corrected_vehicle_types.append(None)
 
-        
+        row.fillna(0, inplace=True)
+        # Use the previously computed series for n_vehicles, n_victims, n_injured, and n_killed
         accident_row = (
-            row[22],  # collision_id
-            n_vehicles,
-            n_victims,
+            row['collision_id'],  # collision_id
+            int(n_vehicles.iat[i]),  # using iat for scalar lookups
+            int(n_victims.iat[i]),
             timestamps_ids[i],
             addresses_ids[i],
             coordinates_ids[i],
             *corrected_vehicle_types,
-            n_injured,
-            n_killed,
+            int(n_injured.iat[i]),
+            int(n_killed.iat[i]),
+            row['number_of_persons_injured'],
+            row['number_of_persons_killed'],
+            row['number_of_pedestrians_injured'],
+            row['number_of_pedestrians_killed'],
+            row['number_of_cyclist_injured'],
+            row['number_of_cyclist_killed'],
+            row['number_of_motorist_injured'],
+            row['number_of_motorist_killed'],
             *corrected_contributing_factors
         )
         accident_data.append(accident_row)
 
     query = f'''
         INSERT INTO "{table_name}" (
-            collision_id, n_vehicles, n_victims, timestamp_id, address_id, coordinate_id,
-            vehicle1_id, vehicle2_id, vehicle3_id, vehicle4_id, vehicle5_id,
-            n_injured, n_killed,
-            contributing_factor1_id, contributing_factor2_id, contributing_factor3_id, contributing_factor4_id, contributing_factor5_id
+            collision_id,
+            n_vehicles,
+            n_victims,
+            timestamp_id,
+            address_id,
+            coordinate_id,
+            vehicle1_id,
+            vehicle2_id,
+            vehicle3_id,
+            vehicle4_id,
+            vehicle5_id,
+            n_injured,
+            n_killed,
+            n_persons_injured,
+            n_persons_killed,
+            n_pedestrians_injured,
+            n_pedestrians_killed,
+            n_cyclist_injured,
+            n_cyclist_killed,
+            n_motorist_injured,
+            n_motorist_killed,
+            contributing_factor1_id,
+            contributing_factor2_id,
+            contributing_factor3_id,
+            contributing_factor4_id,
+            contributing_factor5_id
         )
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
     '''
 
     cursor.executemany(query, accident_data)
@@ -255,24 +283,22 @@ def main():
 
         cursor.execute(f"SELECT * FROM {DB_CONFIG.TABLE_NAMES['STAGING_TABLE_NAME']} LIMIT {chunk_size} OFFSET {offset}")
         data_chunk = cursor.fetchall()
+        data_chunk_columns = [desc[0] for desc in cursor.description]
+        data_chunk_df = pd.DataFrame(data_chunk, columns=data_chunk_columns)
         
         # insert timestamp
-        table_name = "dim_timestamps"
-        timestamps_ids = insert_timestamp_data(cursor, data_chunk, table_name)
+        timestamps_ids = insert_timestamp_data(cursor, data_chunk_df, DB_CONFIG.TABLE_NAMES['DIM_TIMESTAMPS_TABLE_NAME'])
 
         # Insert coordinates
-        table_name_coordinates = "dim_coordinates"
-        coordinates_ids = insert_coordinates_data(cursor, data_chunk, table_name_coordinates)
+        coordinates_ids = insert_coordinates_data(cursor, data_chunk_df, DB_CONFIG.TABLE_NAMES['DIM_COORDINATES_TABLE_NAME'])
 
         # Insert addresses
-        table_name_addresses = "dim_addresses"
-        addresses_ids = insert_address_data(cursor, data_chunk, table_name_addresses)
+        addresses_ids = insert_address_data(cursor, data_chunk_df, DB_CONFIG.TABLE_NAMES['DIM_ADDRESSES_TABLE_NAME'])
 
-        table_name_accidents = "fact_accidents"
         insert_accident_data(
             cursor,
-            data_chunk, 
-            table_name_accidents, 
+            data_chunk_df, 
+            DB_CONFIG.TABLE_NAMES['FACT_ACCIDENTS_TABLE_NAME'], 
             contributing_factors, 
             vehicle_types, 
             timestamps_ids, 

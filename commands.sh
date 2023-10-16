@@ -12,9 +12,9 @@ docker run --rm --link postgres:postgres -it postgres psql -h postgres -U postgr
 pgcli -h localhost -U postgres -d nyc_motor_vechicle_collisions
 
 # create db database 
-docker run --rm --link postgres:postgres -v $(pwd)/data:/tmp -it postgres psql -h postgres -U postgres -a -f /tmp/create_db.sql
+docker run --rm --link postgres:postgres -v $(pwd)/data/database:/tmp -it postgres psql -h postgres -U postgres -a -f /tmp/create_db.sql
 # create db tables 
-docker run --rm --link postgres:postgres -v $(pwd)/data:/tmp -it postgres psql -h postgres -U postgres -d nyc_motor_vechicle_collisions -a -f /tmp/create_tables.sql
+docker run --rm --link postgres:postgres -v $(pwd)/data/database:/tmp -it postgres psql -h postgres -U postgres -d nyc_motor_vechicle_collisions -a -f /tmp/create_tables.sql
 
 # run Grafana
 docker run -d --name=grafana -p 3000:3000 -e GF_SECURITY_ADMIN_USER=postgres -e GF_SECURITY_ADMIN_PASSWORD=postgres grafana/grafana

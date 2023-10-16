@@ -61,6 +61,7 @@ def main():
 
     print("Fetching list of unique vehicle types from database")
 
+    columns = []
     for i in range(1, 6):
         columns.append(f'vehicle_type_code_{i}')
 

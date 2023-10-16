@@ -66,19 +66,27 @@ CREATE TABLE IF NOT EXISTS dim_coordinates (
 
 CREATE TABLE fact_accidents (
     accident_id SERIAL PRIMARY KEY,
-    collision_id INTEGER,
-    n_vehicles INTEGER,
-    n_victims INTEGER,
-    timestamp_id INTEGER,
-    address_id INTEGER,
-    coordinate_id INTEGER,
-    vehicle1_id INTEGER,
-    vehicle2_id INTEGER,
-    vehicle3_id INTEGER,
-    vehicle4_id INTEGER,
-    vehicle5_id INTEGER,
-    n_injured INTEGER,
-    n_killed INTEGER,
+    collision_id INTEGER, --0
+    n_vehicles INTEGER, --1
+    n_victims INTEGER, --2
+    timestamp_id INTEGER, --3
+    address_id INTEGER, --4
+    coordinate_id INTEGER, --5
+    vehicle1_id INTEGER, --6
+    vehicle2_id INTEGER, --7
+    vehicle3_id INTEGER, --8
+    vehicle4_id INTEGER, --9
+    vehicle5_id INTEGER, --10
+    n_injured INTEGER, --11
+    n_killed INTEGER, --12
+    n_persons_injured INTEGER, --13
+    n_persons_killed INTEGER, --14
+    n_pedestrians_injured INTEGER, --15
+    n_pedestrians_killed INTEGER, --16
+    n_cyclist_injured INTEGER, --17
+    n_cyclist_killed INTEGER, --18
+    n_motorist_injured INTEGER, --19
+    n_motorist_killed INTEGER, --20
     contributing_factor1_id INTEGER,
     contributing_factor2_id INTEGER,
     contributing_factor3_id INTEGER,

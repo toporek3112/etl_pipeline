@@ -10,7 +10,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
-    network_mode: bridge
   
   pgadmin:
     image: dpage/pgadmin4
@@ -20,7 +19,6 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: postgres
-    network_mode: bridge
   
   grafana:
     image: grafana/grafana
@@ -34,4 +32,3 @@ services:
     volumes:
       - ./data/grafana/dashboards:/etc/grafana/provisioning/dashboards
       - ./data/grafana/datasources:/etc/grafana/provisioning/datasources
-    network_mode: bridge

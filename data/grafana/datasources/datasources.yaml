@@ -3,7 +3,7 @@ apiVersion: 1
 datasources:
   - name: Postgres_NYC-Motor-Vechicle-Collisions
     type: postgres
-    url: 172.17.0.2:5432
+    url: postgres:5432
     # access: proxy
     database: nyc_motor_vechicle_collisions
     user: postgres

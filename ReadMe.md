@@ -44,12 +44,12 @@ fcad8de55573   postgres:latest  ...  "docker-entrypoint.s…"  postgres
 
 Create Database 
 ```console
-docker run --rm --link postgres:postgres -v $(pwd)/data:/tmp -it postgres psql -h postgres -U postgres -a -f /tmp/create_db.sql
+docker run --rm --link postgres:postgres -v $(pwd)/data/database:/tmp -it postgres psql -h postgres -U postgres -a -f /tmp/create_db.sql
 ```
 
 Create Tables 
 ```console
-docker run --rm --link postgres:postgres -v $(pwd)/data:/tmp -it postgres psql -h postgres -U postgres -d nyc_motor_vechicle_collisions -a -f /tmp/create_tables.sql
+docker run --rm --link postgres:postgres -v $(pwd)/data/database:/tmp -it postgres psql -h postgres -U postgres -d nyc_motor_vechicle_collisions -a -f /tmp/create_tables.sql
 ```
 
 Connect to PostgreSQL via docker

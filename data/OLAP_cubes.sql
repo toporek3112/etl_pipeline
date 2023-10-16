@@ -60,9 +60,9 @@ JOIN dim_timestamps t ON a.timestamp_id = t.timestamp_id
 JOIN dim_vehicles v ON a.vehicle1_id = v.vehicle_id
 GROUP BY CUBE(t.hour, t.day, t.month, t.year, v.vehicle_type)
 ORDER BY
-      t.year,
-    t.month,
-    t.day,
-    t.hour,
-    v.vehicle_type,
-    number_of_accidents;
+    t.year DESC,
+    t.month DESC,
+    t.day DESC,
+    t.hour DESC,
+    v.vehicle_type DESC,
+    number_of_accidents DESC;
