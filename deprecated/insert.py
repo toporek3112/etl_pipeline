@@ -123,7 +123,7 @@ else:
     contributingfactorId = 0
 
 contributingFactorCorrection={}
-contributingFactorCodes=pd.read_csv("data/contributingFactorsCorrection.csv")
+contributingFactorCodes=pd.read_csv("../data/contributingFactorsCorrection.csv")
 for index, row in contributingFactorCodes.iterrows():
     if not pd.isna(row["correctFactor"]):
         contributingFactorCorrection[row["factor"]]=row["correctFactor"]
@@ -140,7 +140,7 @@ else:
     vehicleId=0
 
 vehicleCorrection={}
-vehicleCodes=pd.read_csv("data/vehicleCodesCorrection.csv")
+vehicleCodes=pd.read_csv("../data/vehicleCodesCorrection.csv")
 for index, row in vehicleCodes.iterrows():
     if not pd.isna(row["correctCode"]):
          vehicleCorrection[row["code"]]=row["correctCode"]
