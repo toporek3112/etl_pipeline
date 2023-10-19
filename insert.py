@@ -221,7 +221,7 @@ for bound in range(lower_bound, upper_bound, query_size):
             coordinateId += 1
             timestampId += 1
             addressId += 1
-            accidentId += 1e
+            accidentId += 1
     print(f'\n{round(((bound-lower_bound)/(upper_bound-lower_bound))*100)}% Done')
 
 
