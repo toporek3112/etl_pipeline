@@ -22,10 +22,16 @@ After the data has been aquired and processed it is ready to be visualized. In t
 ## Setup
 Before starting the ETL process the database and Grafana need to be setup. 
 
+Without persisting the database
 ```console
-docker-compose up -d # no persistence 
-docker-compose -f docker-compose.yaml -f docker-compose.overwrite.yaml up -d # with persistence
+docker-compose up -d
 ```
+
+With persisting the database
+```console
+docker-compose -f docker-compose.yaml -f docker-compose.overwrite.yaml up -d
+```
+
 Note: if you want persistence make sure to create /tmp/postgres beforehand
 
 | Service | URL                   |
@@ -55,7 +61,6 @@ docker run --rm --link postgres:postgres -v $(pwd)/data/database:/tmp -it postgr
 Connect to PostgreSQL via docker
 ```console
 docker run --rm --link postgres:postgres -it postgres psql -h postgres -U postgres -d postgres
-pgcli -h localhost -U postgres -d postgres
 ```
 
 Get postgres IP so you can connect to it in pgAdmin and Grafana
