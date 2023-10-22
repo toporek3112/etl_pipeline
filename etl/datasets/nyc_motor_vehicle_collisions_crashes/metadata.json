@@ -1,0 +1,15 @@
+{
+  "datasources": [
+    {
+      "url": "https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Crashes/h9gi-nx95/explore",
+      "metadata_url": "https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Crashes/h9gi-nx95",
+      "website": "https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Crashes/h9gi-nx95",
+      "title": "Motor Vehicle Collisions - Crashes",
+      "type": "JSON",
+      "source": "SOCRATA",
+      "api_app_token": "mZ2a4QZWgW1U6H36nLENWBkuE",
+      "api_domain": "data.cityofnewyork.us",
+      "dataset_id": "h9gi-nx95" 
+    }
+  ]
+}

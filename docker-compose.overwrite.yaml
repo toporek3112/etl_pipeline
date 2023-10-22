@@ -3,4 +3,8 @@ version: '3.9'
 services:
   postgres:
     volumes:
-      - /tmp/postgres:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+    driver: local

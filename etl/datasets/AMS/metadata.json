@@ -1,0 +1,12 @@
+{
+  "datasources": [
+    {
+      "url": "https://www.arbeitsmarktdatenbank.at/opendata/Gesamtuebersicht_AL_RGS.csv",
+      "metadata_url": "https://www.data.gv.at/katalog/api/3/action/package_show?id=CFE2FF7E9AD53C1EE053C630070AB111",
+      "website": "https://www.data.gv.at/katalog/dataset/CFE2FF7E9AD53C1EE053C630070AB111#additional-info",
+      "title": "Gesamtübersicht über die Arbeitslosigkeit - Bestand, Zugang, Abgang",
+      "type": "CSV",
+      "source": "File"
+    }
+  ]
+}
