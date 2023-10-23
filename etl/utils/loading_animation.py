@@ -54,33 +54,41 @@ class ProgressBar:
     def set_prompt(self, finish_message: str = '✅ Finished', failed_message='❌ Failed'):
         self.finish_message = finish_message
         self.failed_message = failed_message
-        self.show_loading()
+
+    @staticmethod
+    def __clear_lines(n_lines):
+        LINE_UP = '\033[1A'
+        LINE_CLEAR = '\x1b[2K'
+        
+        for idx in range(n_lines):
+            print(LINE_UP, end=LINE_CLEAR)
 
     def __loading(self):
-            if self.finished is True and not self.failed:
-                sys.stdout.write(f'\r\033[K{self.finish_message}\n')
-            else:
-                sys.stdout.write(f'\r\033[K{self.failed_message}\n')
+            # if self.finished is True and not self.failed:
+            #     sys.stdout.write(f'\r\033[K{self.finish_message}\n')
+            # else:
+            #     sys.stdout.write(f'\r\033[K{self.failed_message}\n')
             
-            sys.stdout.flush()
-            self.__threadBlockEvent.wait()
-            self.__threadBlockEvent.clear()
+            # sys.stdout.flush()
+            # self.__threadBlockEvent.wait()
+            # self.__threadBlockEvent.clear()
             
             percent = round((self.current + 1) / self.total * 100)
             prog = round(percent / 5)
 
-            sys.stdout.write("\x1b[2A")
-            sys.stdout.write('\r')
-            sys.stdout.write(f'Querying entries {self.current} to {self.current + self.chunk_size} from {self.total}')
-            sys.stdout.write('\n')
-            sys.stdout.write('['+'='*prog+'.'*(20-prog)+f'] {percent}%')
-            sys.stdout.flush()
+            print(f'Processing entries {self.current} to {self.current + self.chunk_size} from total of {self.total}')
+            print('['+'='*prog+'.'*(20-prog)+f'] {percent}%', end='\r')
+            self.__clear_lines(3)
+            # sys.stdout.write('\r')
+            # sys.stdout.write("\x1b[2A")
+            # sys.stdout.write(f'Processing entries {self.current} to {self.current + self.chunk_size} from total of {self.total}')
+            # sys.stdout.write('\n')
+            # sys.stdout.write('['+'='*prog+'.'*(20-prog)+f'] {percent}%')
+            # sys.stdout.flush()
+
             # Wait for the next update
             self.__threadEvent.wait(0.1)
             self.__threadEvent.clear()
-
-    def update_current(self, new_current):
-        self.current = new_current
 
 if __name__ == '__main__':
     total = 4672016
@@ -93,7 +101,7 @@ if __name__ == '__main__':
     progress_bar = ProgressBar(total, current, step)
 
     while True:
-        progress_bar.update(current, step)
+        progress_bar.update(current)
         current += step
         results += 500  # Replace with actual result count
         time.sleep(1)

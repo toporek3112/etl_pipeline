@@ -10,22 +10,16 @@ import pandas as pd
 class MotorVehicleCollisionDataset(Dataset):
     _instance = None
     current_directory = os.path.dirname(os.path.abspath(__file__))
-    db_config_path = os.path.join(current_directory, 'database', 'db_config.json')
-    db_create_tables_path = os.path.join(current_directory, 'database', 'create_tables.sql') 
-    correction_file_path = os.path.join(current_directory, 'corrections')
+    path_db_config = os.path.join(current_directory, 'database', 'db_config.json')
+    path_db_create_tables = os.path.join(current_directory, 'database', 'create_tables.sql') 
+    path_correction_file = os.path.join(current_directory, 'corrections')
+    
+    CHUNK_SIZE_LOAD = 20000
+    CHUNK_SIZE_EXTRACT = 10000
     file_names = {
         "contributingFactors": "stagingContributingFactorsCorrected.csv",
         "vechicleTypes": "stagingVehicleTypesCorrected.csv"
       }
-    extract_chunk_size = 20000
-    load_chunk_size = 10000
-
-    def __new__(cls, *args, **kwargs):
-        # Check if an instance already exists
-        if not cls._instance:
-            # If not, create a new instance and store it in the class attribute
-            cls._instance = super().__new__(cls)
-        return cls._instance  # Return the single instance
 
     def __init__(self, metadata: str = None):
         # Check if this instance has already been initialized
@@ -34,7 +28,7 @@ class MotorVehicleCollisionDataset(Dataset):
         if metadata is None:
             raise ValueError("Metadata argument is required for the first initialization.")
         self.metadata = metadata
-        self.db_config = DatabaseConfig(self.db_config_path, self.db_create_tables_path)
+        self.db_config = DatabaseConfig(self.path_db_config, self.path_db_create_tables)
         self.db_connection = DatabaseConnection(self.db_config)
         self.cursor = self.db_connection.cursor
         self.socrata_client = SocrataClient(metadata['datasources'][0]['api_domain'], metadata['datasources'][0]['api_app_token'])
@@ -69,13 +63,18 @@ class MotorVehicleCollisionDataset(Dataset):
       else:
           return internal_column_name
 
-    def extract_and_save(self):
+    def extract(self):
+        if self.max_database_id is not None and self.max_database_id >= self.max_socrata_id:
+            print("\033[32mStaging table is up to date\033[0m")
+            print("")
+            return
+        
         print("")
         print("Starting Requests")
         print("")
 
         lower_bound = self.max_database_id + 1 if self.max_database_id is not None else 0
-        upper_bound = (self.max_socrata_id - self.max_socrata_id % self.extract_chunk_size) + self.extract_chunk_size + 1
+        upper_bound = (self.max_socrata_id - self.max_socrata_id % self.CHUNK_SIZE_LOAD) + self.CHUNK_SIZE_LOAD + 1
         columns = [
                     'crash_date',
                     'crash_time',
@@ -108,11 +107,11 @@ class MotorVehicleCollisionDataset(Dataset):
                   ]
         api_column_names = [self.get_api_column_name(col) for col in columns]
         placeholders = ', '.join(['%s'] * len(columns))
-
-        for bound in range(lower_bound, upper_bound, self.extract_chunk_size):
-            print(f'requesting id {bound} to {bound + self.extract_chunk_size} from {self.max_socrata_id}')
+        progress_bar = ProgressBar(upper_bound, 0, self.CHUNK_SIZE_LOAD)
+        
+        for bound in range(lower_bound, upper_bound, self.CHUNK_SIZE_LOAD):
             where = (
-                f'collision_id >= {bound} and collision_id < {bound + self.extract_chunk_size} and ('
+                f'collision_id >= {bound} and collision_id < {bound + self.CHUNK_SIZE_LOAD} and ('
                 'contributing_factor_vehicle_1 != "Unspecified" or '
                 'contributing_factor_vehicle_2 != "Unspecified" or '
                 'contributing_factor_vehicle_3 != "Unspecified" or '
@@ -125,7 +124,7 @@ class MotorVehicleCollisionDataset(Dataset):
                 'vehicle_type_code_5 != "UNKNOWN") and '
                 'latitude != 0 and longitude != 0'
                      )
-            results = self.socrata_client.client.get(self.metadata['datasources'][0]['dataset_id'], limit=self.extract_chunk_size, where=where, select=', '.join(api_column_names))
+            results = self.socrata_client.client.get(self.metadata['datasources'][0]['dataset_id'], limit=self.CHUNK_SIZE_LOAD, where=where, select=', '.join(api_column_names))
             
             collisions = [create_collision(result) for result in results]
 
@@ -137,8 +136,10 @@ class MotorVehicleCollisionDataset(Dataset):
             
             self.cursor.executemany(query, data)
             self.db_connection.connection.commit()
-            progress_bar(bound + self.extract_chunk_size, self.max_socrata_id, self.extract_chunk_size)
+            progress_bar.update(bound)
             print('')
+
+        progress_bar.finished = True
 
     ##############################################
     ################# TRANSFORM ##################
@@ -171,7 +172,7 @@ class MotorVehicleCollisionDataset(Dataset):
       return unique_values
     
     def __set_correction_file_path(self, filename):
-       self.correction_file_path = os.path.join(self.current_directory, 'corrections', filename)
+       self.path_correction_file = os.path.join(self.current_directory, 'corrections', filename)
 
     def __save_unique_values(self, filename: str, columns):
       csv_data = []
@@ -179,7 +180,7 @@ class MotorVehicleCollisionDataset(Dataset):
       self.__set_correction_file_path(filename)
       try:
           # Check if file exists and read the existing data
-          with open(self.correction_file_path, mode='r', newline='', encoding='utf-8') as file:
+          with open(self.path_correction_file, mode='r', newline='', encoding='utf-8') as file:
               reader = csv.DictReader(file)
               csv_data = list(reader)
 
@@ -194,14 +195,14 @@ class MotorVehicleCollisionDataset(Dataset):
       csv_data.sort(key=lambda row: row['original'].lower())
       # Write the updated data back to the file
 
-      print(f"Saving values to {self.correction_file_path}")
-      with open(self.correction_file_path, mode='w', newline='', encoding='utf-8') as file:
+      print(f"Saving values to {self.path_correction_file}")
+      with open(self.path_correction_file, mode='w', newline='', encoding='utf-8') as file:
           fieldnames = ['original', 'corrected']
           writer = csv.DictWriter(file, fieldnames=fieldnames)
           writer.writeheader()
           writer.writerows(csv_data)
 
-    def save_contributing_factors(self):
+    def __save_contributing_factors(self):
       columns = []
 
       for i in range(1, 6):
@@ -209,7 +210,7 @@ class MotorVehicleCollisionDataset(Dataset):
 
       self.__save_unique_values(self.file_names["contributingFactors"], columns)
 
-    def save_vehicle_types(self):
+    def __save_vehicle_types(self):
       columns = []
 
       columns = []
@@ -217,6 +218,10 @@ class MotorVehicleCollisionDataset(Dataset):
           columns.append(f'vehicle_type_code_{i}')
 
       self.__save_unique_values(self.file_names["vechicleTypes"], columns)
+
+    def transform(self):
+        self.__save_contributing_factors()
+        self.__save_vehicle_types()
 
     ##############################################
     #################### LOAD ####################
@@ -440,7 +445,7 @@ class MotorVehicleCollisionDataset(Dataset):
 
         # Load corrected contributing factors from csv file from script 02_prepareForCorrection.py
         self.__set_correction_file_path(self.file_names["contributingFactors"])
-        contributing_factors = pd.read_csv(self.correction_file_path)
+        contributing_factors = pd.read_csv(self.path_correction_file)
         contributing_factors = self.__insert_into_dimension(
             self.db_connection.config.table_names['DIM_CONTRIBUTING_FACTORS_TABLE_NAME'],
             ["contributing_factor"],
@@ -449,7 +454,7 @@ class MotorVehicleCollisionDataset(Dataset):
 
         # Load corrected vechicle types from csv file from script 02_prepareForCorrection.py
         self.__set_correction_file_path(self.file_names["vechicleTypes"])
-        vehicle_types = pd.read_csv(self.correction_file_path)
+        vehicle_types = pd.read_csv(self.path_correction_file)
         vehicle_types = self.__insert_into_dimension(
             self.db_connection.config.table_names['DIM_VEHICLES_TABLE_NAME'],
             ["vehicle_type"],
@@ -468,15 +473,15 @@ class MotorVehicleCollisionDataset(Dataset):
         print("")
         print("")
         
-        progress_bar = ProgressBar(total_rows_count, 0, self.load_chunk_size)
+        progress_bar = ProgressBar(total_rows_count, 0, self.CHUNK_SIZE_EXTRACT)
         # loading.set_prompt(finish_message='Finished!✅', failed_message='Failed!❌😨😨')
 
-        for offset in range(lower_bound, total_rows_count, self.load_chunk_size):
+        for offset in range(lower_bound, total_rows_count, self.CHUNK_SIZE_EXTRACT):
 
             progress_bar.update(offset)
             print("")
 
-            self.cursor.execute(f"SELECT * FROM {self.db_connection.config.table_names['STAGING_TABLE_NAME']} LIMIT {self.load_chunk_size} OFFSET {offset}")
+            self.cursor.execute(f"SELECT * FROM {self.db_connection.config.table_names['STAGING_TABLE_NAME']} LIMIT {self.CHUNK_SIZE_EXTRACT} OFFSET {offset}")
             data_chunk = self.cursor.fetchall()
             data_chunk_columns = [desc[0] for desc in self.cursor.description]
             data_chunk_df = pd.DataFrame(data_chunk, columns=data_chunk_columns)
@@ -499,3 +504,6 @@ class MotorVehicleCollisionDataset(Dataset):
                 coordinates_ids)
 
             self.db_connection.connection.commit()  # Commit the transaction
+        
+        progress_bar.finished = True
+        

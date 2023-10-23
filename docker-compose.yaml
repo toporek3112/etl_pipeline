@@ -32,8 +32,8 @@ services:
       GF_SECURITY_ADMIN_PASSWORD: postgres
       GF_PROVISIONING_PATH: /etc/grafana/provisioning
     volumes:
-      - ./data/grafana/dashboards:/etc/grafana/provisioning/dashboards
-      - ./data/grafana/datasources:/etc/grafana/provisioning/datasources
+      - ./setup/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./setup/grafana/datasources:/etc/grafana/provisioning/datasources
     network_mode: bridge
 
 networks:
