@@ -91,3 +91,9 @@ class DatabaseConnection:
     @property
     def config(self):
         return self._instance.db_config
+
+    def get_max_id_from_database(self, id_field_name: int, table: str, quite: bool = True) -> int:
+        self.cursor.execute(f"SELECT MAX({id_field_name}) FROM {table};")
+        max_id = self.cursor.fetchone()[0]
+        if not quite: print(f"DB max collision ID: {max_id}")
+        return max_id

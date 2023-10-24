@@ -4,6 +4,7 @@ from etl.datasets.nyc_motor_vehicle_collisions_crashes.motor_vehicle_collision i
 from etl.utils.socrata_api import SocrataClient  # Adjust the import path if necessary
 from etl.utils.database import DatabaseConfig, DatabaseConnection
 from etl.utils.loading_animation import ProgressBar
+from etl.utils.phase_decorator import phase
 import csv
 import pandas as pd
 
@@ -22,39 +23,27 @@ class MotorVehicleCollisionDataset(Dataset):
       }
 
     def __init__(self, metadata: str = None):
-        # Check if this instance has already been initialized
-        if hasattr(self, 'initialized'):
-            return
-        if metadata is None:
-            raise ValueError("Metadata argument is required for the first initialization.")
         self.metadata = metadata
+        self.socrata_client = SocrataClient(metadata['datasources'][0]['api_domain'], metadata['datasources'][0]['api_app_token'])
         self.db_config = DatabaseConfig(self.path_db_config, self.path_db_create_tables)
         self.db_connection = DatabaseConnection(self.db_config)
         self.cursor = self.db_connection.cursor
-        self.socrata_client = SocrataClient(metadata['datasources'][0]['api_domain'], metadata['datasources'][0]['api_app_token'])
-        self.max_socrata_id = self.get_max_id_from_socrata()
-        self.max_database_id = self.get_max_id_from_database()
-        self.initialized = True  # Set a flag indicating that the instance has been initialized
+        self.max_socrata_id = 0
+        self.max_database_id = 0
     
     ##############################################
     ################## EXTRACT ###################
     ##############################################
 
-    def get_max_id_from_socrata(self):
+    def __get_max_id_from_socrata(self):
       max_collision_id = int(self.socrata_client.client.get(
           self.metadata['datasources'][0]['dataset_id'],
           select='max(collision_id)')[0]["max_collision_id"]
         )
       print(f"SOCRATA max collision ID: {max_collision_id}")
       return max_collision_id 
-    
-    def get_max_id_from_database(self):
-      self.cursor.execute(f"SELECT MAX(collision_id) FROM {self.db_connection.config.table_names['STAGING_TABLE_NAME']};")
-      max_collision_id = self.cursor.fetchone()[0]
-      print(f"DB max collision ID: {max_collision_id}")
-      return max_collision_id
 
-    def get_api_column_name(self, internal_column_name: str):
+    def __get_api_column_name(self, internal_column_name: str):
       # Directly map the two specific column names, leave others unchanged
       if internal_column_name == 'vehicle_type_code_1':
           return 'vehicle_type_code1'
@@ -63,7 +52,11 @@ class MotorVehicleCollisionDataset(Dataset):
       else:
           return internal_column_name
 
+    @phase
     def extract(self):
+        self.max_socrata_id = self.__get_max_id_from_socrata()
+        self.max_database_id = self.db_connection.get_max_id_from_database("collision_id", self.db_connection.config.table_names['STAGING_TABLE_NAME'], False)
+
         if self.max_database_id is not None and self.max_database_id >= self.max_socrata_id:
             print("\033[32mStaging table is up to date\033[0m")
             print("")
@@ -105,11 +98,13 @@ class MotorVehicleCollisionDataset(Dataset):
                     'vehicle_type_code_4',
                     'vehicle_type_code_5',
                   ]
-        api_column_names = [self.get_api_column_name(col) for col in columns]
+        api_column_names = [self.__get_api_column_name(col) for col in columns]
         placeholders = ', '.join(['%s'] * len(columns))
         progress_bar = ProgressBar(upper_bound, 0, self.CHUNK_SIZE_LOAD)
-        
+        total = 0
+
         for bound in range(lower_bound, upper_bound, self.CHUNK_SIZE_LOAD):
+            progress_bar.update(bound)
             where = (
                 f'collision_id >= {bound} and collision_id < {bound + self.CHUNK_SIZE_LOAD} and ('
                 'contributing_factor_vehicle_1 != "Unspecified" or '
@@ -125,20 +120,20 @@ class MotorVehicleCollisionDataset(Dataset):
                 'latitude != 0 and longitude != 0'
                      )
             results = self.socrata_client.client.get(self.metadata['datasources'][0]['dataset_id'], limit=self.CHUNK_SIZE_LOAD, where=where, select=', '.join(api_column_names))
-            
+            total += len(results)
+
             collisions = [create_collision(result) for result in results]
 
-            print(f'found {len(results)} results')
-            print('Writing to Staging Database')
+            # print(f'found {len(results)} results')
+            # print('Writing to Staging Database')
             
             data = [tuple(getattr(collision, col, None) for col in columns) for collision in collisions]
             query = f'INSERT INTO {self.db_connection.config.table_names["STAGING_TABLE_NAME"]} ({", ".join(columns)}) VALUES ({placeholders})'
             
             self.cursor.executemany(query, data)
             self.db_connection.connection.commit()
-            progress_bar.update(bound)
-            print('')
 
+        progress_bar.set_prompt(finish_message=f'✅ Finished found {total} entries')
         progress_bar.finished = True
 
     ##############################################
@@ -195,33 +190,34 @@ class MotorVehicleCollisionDataset(Dataset):
       csv_data.sort(key=lambda row: row['original'].lower())
       # Write the updated data back to the file
 
-      print(f"Saving values to {self.path_correction_file}")
+      print("Saving values to:")
+      print(f" {self.path_correction_file}")
+      print("")
       with open(self.path_correction_file, mode='w', newline='', encoding='utf-8') as file:
           fieldnames = ['original', 'corrected']
           writer = csv.DictWriter(file, fieldnames=fieldnames)
           writer.writeheader()
           writer.writerows(csv_data)
 
-    def __save_contributing_factors(self):
-      columns = []
-
-      for i in range(1, 6):
-          columns.append(f'contributing_factor_vehicle_{i}')
-
-      self.__save_unique_values(self.file_names["contributingFactors"], columns)
-
-    def __save_vehicle_types(self):
-      columns = []
-
-      columns = []
-      for i in range(1, 6):
-          columns.append(f'vehicle_type_code_{i}')
-
-      self.__save_unique_values(self.file_names["vechicleTypes"], columns)
-
+    @phase
     def transform(self):
-        self.__save_contributing_factors()
-        self.__save_vehicle_types()
+        columns = []
+        for i in range(1, 6):
+            columns.append(f'contributing_factor_vehicle_{i}')
+        self.__save_unique_values(self.file_names["contributingFactors"], columns)
+        
+        columns = []
+        for i in range(1, 6):
+            columns.append(f'vehicle_type_code_{i}')
+        self.__save_unique_values(self.file_names["vechicleTypes"], columns)
+
+        print("Open files and correct values manually")
+        user_input = input("Do you want to proceed? (yes/no): ").lower().strip()
+
+        if user_input in ('y', 'yes', ''):
+            print("")
+        else:
+            print("Stopping...")
 
     ##############################################
     #################### LOAD ####################
@@ -436,6 +432,7 @@ class MotorVehicleCollisionDataset(Dataset):
 
         self.cursor.executemany(query, accident_data)
 
+    @phase
     def load(self):
         total_rows_count = self.__get_staging_table_row_count()
 
@@ -470,16 +467,13 @@ class MotorVehicleCollisionDataset(Dataset):
 
         print("")
         print("Starting loading data from staging table into dimension and fact tables...")
-        print("")
-        print("")
         
         progress_bar = ProgressBar(total_rows_count, 0, self.CHUNK_SIZE_EXTRACT)
+        print("")
         # loading.set_prompt(finish_message='Finished!✅', failed_message='Failed!❌😨😨')
 
         for offset in range(lower_bound, total_rows_count, self.CHUNK_SIZE_EXTRACT):
-
             progress_bar.update(offset)
-            print("")
 
             self.cursor.execute(f"SELECT * FROM {self.db_connection.config.table_names['STAGING_TABLE_NAME']} LIMIT {self.CHUNK_SIZE_EXTRACT} OFFSET {offset}")
             data_chunk = self.cursor.fetchall()

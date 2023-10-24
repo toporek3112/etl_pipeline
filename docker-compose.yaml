@@ -10,6 +10,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     network_mode: bridge
   
   pgadmin:
@@ -35,6 +37,11 @@ services:
       - ./setup/grafana/dashboards:/etc/grafana/provisioning/dashboards
       - ./setup/grafana/datasources:/etc/grafana/provisioning/datasources
     network_mode: bridge
+
+volumes:
+  postgres_data:
+    name: postgres_data
+    driver: local
 
 networks:
   my_bridge_network:

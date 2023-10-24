@@ -1,17 +1,13 @@
-from threading import Thread
-from threading import Event
-import sys
 import time
 
 class ProgressBar:
     def __init__(self, total, current, chunk_size):
-        self.finish_message = ""
+        self.finish_message = '✅ Finished'
+        self.failed_message = '❌ Failed'
         self.__failed = False
         self.__finished = False
-        self.failed_message = ""
-        self.__threadEvent = Event()
-        self.__thread = Thread(target=self.__loading, daemon=True)
-        self.__threadBlockEvent = Event()
+        self.__first_run = True
+
         self.total = total
         self.current = current
         self.chunk_size = chunk_size
@@ -24,9 +20,7 @@ class ProgressBar:
     def finished(self, finished):
         if isinstance(finished, bool):
             self.__finished = finished
-            if finished:
-                self.__threadEvent.set()
-                time.sleep(0.1)
+            self.update()
         else:
             raise ValueError
 
@@ -43,52 +37,45 @@ class ProgressBar:
                 time.sleep(0.1)
         else:
             raise ValueError
-
-    def update(self, current):
-        self.current = current
-        self.__threadEvent.clear()
-        self.__thread = Thread(target=self.__loading, daemon=True)  # Create a new thread
-        self.__thread.start()
-        self.__threadBlockEvent.set()
-
+        
     def set_prompt(self, finish_message: str = '✅ Finished', failed_message='❌ Failed'):
         self.finish_message = finish_message
         self.failed_message = failed_message
 
     @staticmethod
-    def __clear_lines(n_lines):
+    def __clear_lines(n_lines=1):
         LINE_UP = '\033[1A'
         LINE_CLEAR = '\x1b[2K'
-        
         for idx in range(n_lines):
-            print(LINE_UP, end=LINE_CLEAR)
+            print("", end=LINE_CLEAR)
+            print("", end=LINE_UP)
+            print("", end=LINE_CLEAR)
 
     def __loading(self):
-            # if self.finished is True and not self.failed:
-            #     sys.stdout.write(f'\r\033[K{self.finish_message}\n')
-            # else:
-            #     sys.stdout.write(f'\r\033[K{self.failed_message}\n')
-            
-            # sys.stdout.flush()
-            # self.__threadBlockEvent.wait()
-            # self.__threadBlockEvent.clear()
-            
-            percent = round((self.current + 1) / self.total * 100)
-            prog = round(percent / 5)
+        percent = round((self.current + 1) / self.total * 100)
+        prog = round(percent / 5)
+        
+        if not self.__first_run:
+            ProgressBar.__clear_lines(1)
+        else:
+            self.__first_run = False
 
-            print(f'Processing entries {self.current} to {self.current + self.chunk_size} from total of {self.total}')
-            print('['+'='*prog+'.'*(20-prog)+f'] {percent}%', end='\r')
-            self.__clear_lines(3)
-            # sys.stdout.write('\r')
-            # sys.stdout.write("\x1b[2A")
-            # sys.stdout.write(f'Processing entries {self.current} to {self.current + self.chunk_size} from total of {self.total}')
-            # sys.stdout.write('\n')
-            # sys.stdout.write('['+'='*prog+'.'*(20-prog)+f'] {percent}%')
-            # sys.stdout.flush()
+        print(f'Processing entries {self.current} to {self.current + self.chunk_size} from total of {self.total}')
+        print('['+'='*prog+'.'*(20-prog)+f'] {percent}%', end='\r')
 
-            # Wait for the next update
-            self.__threadEvent.wait(0.1)
-            self.__threadEvent.clear()
+        if self.finished is True:
+            ProgressBar.__clear_lines(1)
+            print(self.finish_message)
+            print("")
+        elif self.failed is True:
+            ProgressBar.__clear_lines(1)
+            print(self.failed_message)
+            print("")
+
+    def update(self, current=0):
+        self.current = current
+        self.__loading()
+
 
 if __name__ == '__main__':
     total = 4672016
@@ -97,6 +84,8 @@ if __name__ == '__main__':
     results = 0
 
     print("something")
+    print("")
+    print("another one")
 
     progress_bar = ProgressBar(total, current, step)
 
