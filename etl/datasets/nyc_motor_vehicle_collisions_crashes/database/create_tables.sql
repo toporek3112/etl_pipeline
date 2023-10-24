@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS staging (
     crash_date DATE,
     crash_time TIME,
     borough TEXT,
-    zip_code TEXT,
+    zip_code INT,
     latitude FLOAT,
     longitude FLOAT,
     on_street_name TEXT,
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS dim_coordinates (
     longitude DECIMAL(9,6) NOT NULL
 );
 
-CREATE TABLE fact_accidents (
+CREATE TABLE IF NOT EXISTS fact_accidents (
     accident_id SERIAL PRIMARY KEY,
     collision_id INTEGER, --0
     n_vehicles INTEGER, --1

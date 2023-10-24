@@ -1,1 +1,0 @@
-CREATE DATABASE nyc_motor_vechicle_collisions;
