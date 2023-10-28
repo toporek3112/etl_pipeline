@@ -3,15 +3,15 @@ from abc import ABC, abstractmethod
 class Dataset(ABC):
     
     @abstractmethod
-    def extract(self, data):
+    def extract(self):
         pass
 
     @abstractmethod
-    def transform(self, data):
+    def transform(self):
         pass
 
     @abstractmethod
-    def load(self, data):
+    def load(self):
         pass
 
     

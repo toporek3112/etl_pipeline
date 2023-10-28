@@ -9,13 +9,12 @@ import csv
 import pandas as pd
 
 class MotorVehicleCollisionDataset(Dataset):
-    _instance = None
     current_directory = os.path.dirname(os.path.abspath(__file__))
     path_db_config = os.path.join(current_directory, 'database', 'db_config.json')
     path_db_create_tables = os.path.join(current_directory, 'database', 'create_tables.sql') 
     path_correction_file = os.path.join(current_directory, 'corrections')
     
-    CHUNK_SIZE_LOAD = 20000
+    CHUNK_SIZE_LOAD = 30000
     CHUNK_SIZE_EXTRACT = 10000
     file_names = {
         "contributingFactors": "stagingContributingFactorsCorrected.csv",
@@ -55,7 +54,7 @@ class MotorVehicleCollisionDataset(Dataset):
     @phase
     def extract(self):
         self.max_socrata_id = self.__get_max_id_from_socrata()
-        self.max_database_id = self.db_connection.get_max_id_from_database("collision_id", self.db_connection.config.table_names['STAGING_TABLE_NAME'], False)
+        self.max_database_id = self.db_connection.get_max_id_from_table("collision_id", self.db_connection.config.table_names['STAGING_TABLE_NAME'], False)
 
         if self.max_database_id is not None and self.max_database_id >= self.max_socrata_id:
             print("\033[32mStaging table is up to date\033[0m")
@@ -200,7 +199,7 @@ class MotorVehicleCollisionDataset(Dataset):
           writer.writerows(csv_data)
 
     @phase
-    def transform(self):
+    def transform(self, args):
         columns = []
         for i in range(1, 6):
             columns.append(f'contributing_factor_vehicle_{i}')
@@ -210,6 +209,8 @@ class MotorVehicleCollisionDataset(Dataset):
         for i in range(1, 6):
             columns.append(f'vehicle_type_code_{i}')
         self.__save_unique_values(self.file_names["vechicleTypes"], columns)
+
+        if args.y: return
 
         print("Open files and correct values manually")
         user_input = input("Do you want to proceed? (yes/no): ").lower().strip()
@@ -222,17 +223,6 @@ class MotorVehicleCollisionDataset(Dataset):
     ##############################################
     #################### LOAD ####################
     ##############################################
-
-    def __get_staging_table_row_count(self):
-      # Check if staging table has rows
-      print("Fetching rows count from staging table")
-      self.cursor.execute(f"SELECT COUNT(*) FROM {self.db_connection.config.table_names['STAGING_TABLE_NAME']}")
-      total_rows = self.cursor.fetchone()[0]
-
-      if total_rows is None:
-          raise print("Staging table is empty!")
-      
-      return total_rows
 
     @staticmethod
     def __get_id(row, result_dict):
@@ -434,7 +424,9 @@ class MotorVehicleCollisionDataset(Dataset):
 
     @phase
     def load(self):
-        total_rows_count = self.__get_staging_table_row_count()
+        # Get staging table rows count
+        total_rows_count = self.db_connection.get_rows_count_from_table(self.db_connection.config.table_names['STAGING_TABLE_NAME'])
+        if total_rows_count is None: raise print("Staging table is empty!")
 
         print(f"Found {total_rows_count} rows in staging table")
         print("Starting preparing dimension tables...")

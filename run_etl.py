@@ -1,5 +1,6 @@
 import os
 import json
+import argparse
 from prettytable import PrettyTable
 from etl.datasets.nyc_motor_vehicle_collisions_crashes.motor_vehicle_collision import MotorVehicleCollision
 from etl.datasets.nyc_motor_vehicle_collisions_crashes.motor_vehicle_collision_dataset import MotorVehicleCollisionDataset
@@ -53,6 +54,10 @@ def print_dataset_metadata(metadata: dict):
 
 def main():
     try:
+        parser = argparse.ArgumentParser(description='Your script description')
+        parser.add_argument('--y', action='store_true', help='procced after transform phase')
+        args = parser.parse_args()
+
         datasets = list_datasets()
         selected_dataset = select_dataset(datasets)
         print(f"Selected dataset: {selected_dataset}")
@@ -63,7 +68,7 @@ def main():
         if selected_dataset == "nyc_motor_vehicle_collisions_crashes":
             dataset = MotorVehicleCollisionDataset(metadata)
             dataset.extract()
-            dataset.transform()
+            dataset.transform(args)
             dataset.load()
             return
         elif selected_dataset == "AMS":

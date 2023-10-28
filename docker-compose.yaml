@@ -3,7 +3,7 @@ version: '3.9'
 services:
   postgres:
     image: postgres:latest
-    container_name: postgres
+    container_name: etl_postgres
     ports:
       - "5432:5432"
     environment:
@@ -11,22 +11,20 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-    network_mode: bridge
+      - ETL_postgres:/var/lib/postgresql/data
   
   pgadmin:
     image: dpage/pgadmin4
-    container_name: pgadmin
+    container_name: etl_pgadmin
     ports:
       - "5050:80"
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: postgres
-    network_mode: bridge
   
   grafana:
     image: grafana/grafana
-    container_name: grafana
+    container_name: etl_grafana
     ports:
       - "3000:3000"
     environment:
@@ -36,13 +34,8 @@ services:
     volumes:
       - ./setup/grafana/dashboards:/etc/grafana/provisioning/dashboards
       - ./setup/grafana/datasources:/etc/grafana/provisioning/datasources
-    network_mode: bridge
 
 volumes:
-  postgres_data:
-    name: postgres_data
+  ETL_postgres:
+    name: ETL_postgres
     driver: local
-
-networks:
-  my_bridge_network:
-    driver: bridge

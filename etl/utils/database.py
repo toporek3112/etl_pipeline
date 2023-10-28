@@ -92,7 +92,13 @@ class DatabaseConnection:
     def config(self):
         return self._instance.db_config
 
-    def get_max_id_from_database(self, id_field_name: int, table: str, quite: bool = True) -> int:
+    def get_rows_count_from_table(self, table_name):
+      print("Fetching rows count from staging table")
+      self.cursor.execute(f"SELECT COUNT(*) FROM {table_name}")
+      total_rows = self.cursor.fetchone()[0]
+      return total_rows
+
+    def get_max_id_from_table(self, id_field_name: int, table: str, quite: bool = True) -> int:
         self.cursor.execute(f"SELECT MAX({id_field_name}) FROM {table};")
         max_id = self.cursor.fetchone()[0]
         if not quite: print(f"DB max collision ID: {max_id}")

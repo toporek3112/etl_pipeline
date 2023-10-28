@@ -18,11 +18,12 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 1,
   "links": [],
   "liveNow": false,
   "panels": [
     {
-      "collapsed": true,
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -30,927 +31,874 @@
         "y": 0
       },
       "id": 12,
-      "panels": [
-        {
-          "datasource": {
-            "type": "postgres",
-            "uid": "P649E709BFFDB8462"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "percentage",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "orange",
-                    "value": 70
-                  },
-                  {
-                    "color": "red",
-                    "value": 85
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 9
-          },
-          "id": 11,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "area",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "textMode": "auto"
-          },
-          "pluginVersion": "10.1.5",
-          "targets": [
-            {
-              "datasource": {
-                "type": "postgres",
-                "uid": "P649E709BFFDB8462"
-              },
-              "editorMode": "code",
-              "format": "table",
-              "rawQuery": true,
-              "rawSql": "SELECT \r\n    COUNT(*) \r\nFROM \r\n    fact_accidents \r\nWHERE \r\n    timestamp_id IN (SELECT timestamp_id FROM dim_timestamps WHERE date_obj = CURRENT_DATE - INTERVAL '1 month'); \r\n \r\n ",
-              "refId": "A",
-              "sql": {
-                "columns": [
-                  {
-                    "parameters": [],
-                    "type": "function"
-                  }
-                ],
-                "groupBy": [
-                  {
-                    "property": {
-                      "type": "string"
-                    },
-                    "type": "groupBy"
-                  }
-                ],
-                "limit": 50
-              }
-            }
-          ],
-          "title": "Claims Reported today",
-          "type": "stat"
-        }
-      ],
-      "title": "Claims Department",
-      "type": "row"
-    },
-    {
-      "collapsed": true,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 1
-      },
-      "id": 5,
-      "panels": [
-        {
-          "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "insertNulls": false,
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": [
-              {
-                "__systemRef": "hideSeriesFrom",
-                "matcher": {
-                  "id": "byNames",
-                  "options": {
-                    "mode": "exclude",
-                    "names": [
-                      "Killed"
-                    ],
-                    "prefix": "All except:",
-                    "readOnly": true
-                  }
-                },
-                "properties": [
-                  {
-                    "id": "custom.hideFrom",
-                    "value": {
-                      "legend": false,
-                      "tooltip": false,
-                      "viz": true
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          "gridPos": {
-            "h": 9,
-            "w": 24,
-            "x": 0,
-            "y": 10
-          },
-          "id": 8,
-          "options": {
-            "legend": {
-              "calcs": [],
-              "displayMode": "list",
-              "placement": "bottom",
-              "showLegend": true
-            },
-            "tooltip": {
-              "mode": "single",
-              "sort": "none"
-            }
-          },
-          "targets": [
-            {
-              "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
-              "editorMode": "code",
-              "format": "table",
-              "rawQuery": true,
-              "rawSql": "SELECT \r\n    CASE\r\n        WHEN '$time_range' = 'hour' THEN to_timestamp(dt.year || '-' || LPAD(CAST(dt.month AS TEXT), 2, '0') || '-' || LPAD(CAST(dt.day AS TEXT), 2, '0') || ' ' || LPAD(CAST(dt.\"$time_range\" AS TEXT), 2, '0') || ':00:00', 'YYYY-MM-DD HH24:MI:SS')\r\n        WHEN '$time_range' = 'day' THEN to_timestamp(dt.year || '-' || LPAD(CAST(dt.month AS TEXT), 2, '0') || '-' || LPAD(CAST(dt.\"$time_range\" AS TEXT), 2, '0'), 'YYYY-MM-DD')\r\n        WHEN '$time_range' = 'month' THEN to_timestamp(dt.year || '-' || LPAD(CAST(dt.\"$time_range\" AS TEXT), 2, '0') || '-01', 'YYYY-MM-DD')\r\n        WHEN '$time_range' = 'year' THEN to_timestamp(dt.\"$time_range\" || '-01-01', 'YYYY-MM-DD')\r\n    END AS \"time\",\r\n    SUM(fa.n_victims) AS \"Victims\",\r\n    SUM(fa.n_injured) AS \"Injured\",\r\n    SUM(fa.n_killed) AS \"Killed\"\r\nFROM fact_accidents fa\r\nJOIN dim_timestamps dt ON fa.timestamp_id = dt.timestamp_id\r\nGROUP BY CASE\r\n             WHEN '$time_range' = 'hour' THEN to_timestamp(dt.year || '-' || LPAD(CAST(dt.month AS TEXT), 2, '0') || '-' || LPAD(CAST(dt.day AS TEXT), 2, '0') || ' ' || LPAD(CAST(dt.\"$time_range\" AS TEXT), 2, '0') || ':00:00', 'YYYY-MM-DD HH24:MI:SS')\r\n             WHEN '$time_range' = 'day' THEN to_timestamp(dt.year || '-' || LPAD(CAST(dt.month AS TEXT), 2, '0') || '-' || LPAD(CAST(dt.\"$time_range\" AS TEXT), 2, '0'), 'YYYY-MM-DD')\r\n             WHEN '$time_range' = 'month' THEN to_timestamp(dt.year || '-' || LPAD(CAST(dt.\"$time_range\" AS TEXT), 2, '0') || '-01', 'YYYY-MM-DD')\r\n             WHEN '$time_range' = 'year' THEN to_timestamp(dt.\"$time_range\" || '-01-01', 'YYYY-MM-DD')\r\n         END\r\nORDER BY \"time\" DESC;",
-              "refId": "A",
-              "sql": {
-                "columns": [
-                  {
-                    "parameters": [],
-                    "type": "function"
-                  }
-                ],
-                "groupBy": [
-                  {
-                    "property": {
-                      "type": "string"
-                    },
-                    "type": "groupBy"
-                  }
-                ],
-                "limit": 50
-              }
-            }
-          ],
-          "title": "Accidents per $time_range",
-          "type": "timeseries"
-        },
-        {
-          "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "custom": {
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "dark-red",
-                    "value": 2
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 18,
-            "w": 13,
-            "x": 0,
-            "y": 19
-          },
-          "id": 1,
-          "options": {
-            "basemap": {
-              "config": {},
-              "name": "Layer 0",
-              "type": "default"
-            },
-            "controls": {
-              "mouseWheelZoom": true,
-              "showAttribution": false,
-              "showDebug": false,
-              "showMeasure": false,
-              "showScale": true,
-              "showZoom": true
-            },
-            "layers": [
-              {
-                "config": {
-                  "blur": 30,
-                  "radius": 10,
-                  "weight": {
-                    "fixed": 1,
-                    "max": 1,
-                    "min": 0
-                  }
-                },
-                "location": {
-                  "latitude": "latitude",
-                  "longitude": "longitude",
-                  "mode": "coords"
-                },
-                "name": "Layer 1",
-                "opacity": 1,
-                "tooltip": true,
-                "type": "heatmap"
-              }
-            ],
-            "tooltip": {
-              "mode": "details"
-            },
-            "view": {
-              "allLayers": true,
-              "id": "coords",
-              "lat": 40.681004,
-              "lon": -73.970039,
-              "shared": true,
-              "zoom": 12.02
-            }
-          },
-          "pluginVersion": "10.1.5",
-          "targets": [
-            {
-              "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
-              "editorMode": "code",
-              "format": "table",
-              "rawQuery": true,
-              "rawSql": "SELECT \r\n    dc.latitude, \r\n    dc.longitude, \r\n    COUNT(*) as \"Number of Accidents\"\r\nFROM fact_accidents fa\r\nJOIN dim_coordinates dc ON fa.coordinate_id = dc.coordinates_id\r\nJOIN dim_timestamps dt ON fa.timestamp_id = dt.timestamp_id\r\nWHERE dt.date_obj >= NOW() - INTERVAL '1 month'\r\nGROUP BY dc.latitude, dc.longitude;",
-              "refId": "A",
-              "sql": {
-                "columns": [
-                  {
-                    "parameters": [],
-                    "type": "function"
-                  }
-                ],
-                "groupBy": [
-                  {
-                    "property": {
-                      "type": "string"
-                    },
-                    "type": "groupBy"
-                  }
-                ],
-                "limit": 50
-              }
-            }
-          ],
-          "title": "Geographical heatmaps for highlighting high-risk areas",
-          "type": "geomap"
-        },
-        {
-          "datasource": {
-            "type": "postgres",
-            "uid": "P649E709BFFDB8462"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "custom": {
-                "align": "auto",
-                "cellOptions": {
-                  "type": "auto"
-                },
-                "inspect": false
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 18,
-            "w": 11,
-            "x": 13,
-            "y": 19
-          },
-          "id": 10,
-          "options": {
-            "cellHeight": "sm",
-            "footer": {
-              "countRows": false,
-              "fields": "",
-              "reducer": [
-                "sum"
-              ],
-              "show": false
-            },
-            "showHeader": true
-          },
-          "pluginVersion": "10.1.5",
-          "targets": [
-            {
-              "datasource": {
-                "type": "postgres",
-                "uid": "P649E709BFFDB8462"
-              },
-              "editorMode": "code",
-              "format": "table",
-              "rawQuery": true,
-              "rawSql": "SELECT\r\n    contributing_factor,\r\n    COUNT(*) AS \"frequency\"\r\nFROM\r\n    fact_accidents\r\n    JOIN dim_contributing_factors ON fact_accidents.contributing_factor1_id = dim_contributing_factors.contributing_factor_id\r\nGROUP BY\r\n    contributing_factor\r\nORDER BY \r\n    \"frequency\" DESC;",
-              "refId": "A",
-              "sql": {
-                "columns": [
-                  {
-                    "parameters": [],
-                    "type": "function"
-                  }
-                ],
-                "groupBy": [
-                  {
-                    "property": {
-                      "type": "string"
-                    },
-                    "type": "groupBy"
-                  }
-                ],
-                "limit": 50
-              }
-            }
-          ],
-          "title": "Factors contributing to high-risk scores",
-          "type": "table"
-        }
-      ],
+      "panels": [],
       "title": "Risk Assessors",
       "type": "row"
     },
     {
-      "collapsed": true,
+      "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Injured"
+            },
+            "properties": []
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 8,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \r\n    CASE\r\n        WHEN '$time_range' = 'hour' THEN to_timestamp(dt.year || '-' || LPAD(CAST(dt.month AS TEXT), 2, '0') || '-' || LPAD(CAST(dt.day AS TEXT), 2, '0') || ' ' || LPAD(CAST(dt.\"$time_range\" AS TEXT), 2, '0') || ':00:00', 'YYYY-MM-DD HH24:MI:SS')\r\n        WHEN '$time_range' = 'day' THEN to_timestamp(dt.year || '-' || LPAD(CAST(dt.month AS TEXT), 2, '0') || '-' || LPAD(CAST(dt.\"$time_range\" AS TEXT), 2, '0'), 'YYYY-MM-DD')\r\n        WHEN '$time_range' = 'month' THEN to_timestamp(dt.year || '-' || LPAD(CAST(dt.\"$time_range\" AS TEXT), 2, '0') || '-01', 'YYYY-MM-DD')\r\n        WHEN '$time_range' = 'year' THEN to_timestamp(dt.\"$time_range\" || '-01-01', 'YYYY-MM-DD')\r\n    END AS \"time\",\r\n    SUM(fa.n_victims) AS \"Victims\",\r\n    SUM(fa.n_injured) AS \"Injured\",\r\n    SUM(fa.n_killed) AS \"Killed\"\r\nFROM fact_accidents fa\r\nJOIN dim_timestamps dt ON fa.timestamp_id = dt.timestamp_id\r\nGROUP BY CASE\r\n             WHEN '$time_range' = 'hour' THEN to_timestamp(dt.year || '-' || LPAD(CAST(dt.month AS TEXT), 2, '0') || '-' || LPAD(CAST(dt.day AS TEXT), 2, '0') || ' ' || LPAD(CAST(dt.\"$time_range\" AS TEXT), 2, '0') || ':00:00', 'YYYY-MM-DD HH24:MI:SS')\r\n             WHEN '$time_range' = 'day' THEN to_timestamp(dt.year || '-' || LPAD(CAST(dt.month AS TEXT), 2, '0') || '-' || LPAD(CAST(dt.\"$time_range\" AS TEXT), 2, '0'), 'YYYY-MM-DD')\r\n             WHEN '$time_range' = 'month' THEN to_timestamp(dt.year || '-' || LPAD(CAST(dt.\"$time_range\" AS TEXT), 2, '0') || '-01', 'YYYY-MM-DD')\r\n             WHEN '$time_range' = 'year' THEN to_timestamp(dt.\"$time_range\" || '-01-01', 'YYYY-MM-DD')\r\n         END\r\nORDER BY \"time\" DESC;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Accidents per $time_range",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Accidents Count"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 13,
+        "x": 0,
+        "y": 10
+      },
+      "id": 16,
+      "options": {
+        "barRadius": 0.1,
+        "barWidth": 0.97,
+        "fullHighlight": true,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "auto",
+        "showValue": "always",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "time_unit",
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "targets": [
+        {
+          "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n    CASE\r\n        WHEN '${time_range}' = 'hour' THEN t.hour\r\n        WHEN '${time_range}' = 'day' THEN t.day\r\n        WHEN '${time_range}' = 'month' THEN t.month\r\n        WHEN '${time_range}' = 'year' THEN t.year\r\n    END AS time_unit,\r\n    COUNT(*) AS \"Accidents Count\"\r\nFROM\r\n    fact_accidents a\r\nJOIN\r\n    dim_timestamps t\r\nON\r\n    a.timestamp_id = t.timestamp_id\r\nWHERE\r\n    t.date_obj BETWEEN $__timeFrom() AND $__timeTo()\r\nGROUP BY\r\n    time_unit\r\nORDER BY\r\n    time_unit;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Accidents by ${time_range}",
+      "type": "barchart"
+    },
+    {
+      "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Percent"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percent"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 11,
+        "x": 13,
+        "y": 10
+      },
+      "id": 15,
+      "options": {
+        "displayLabels": [],
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "sortBy": "Value",
+          "sortDesc": true,
+          "values": [
+            "value"
+          ]
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^Percent$/",
+          "limit": 10,
+          "values": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH TotalVehicleCount AS (\r\n    SELECT\r\n        COUNT(*) AS total_vehicle_count\r\n    FROM\r\n        fact_accidents a\r\n    JOIN\r\n        dim_vehicles v\r\n    ON\r\n        a.vehicle1_id = v.vehicle_id\r\n        OR a.vehicle2_id = v.vehicle_id\r\n        OR a.vehicle3_id = v.vehicle_id\r\n        OR a.vehicle4_id = v.vehicle_id\r\n        OR a.vehicle5_id = v.vehicle_id\r\n)\r\nSELECT\r\n    v.vehicle_type AS \"Vechicle Type\",\r\n    COUNT(*) AS \"Count\",\r\n    ROUND(\r\n        (COUNT(*)::decimal / (SELECT total_vehicle_count FROM TotalVehicleCount)) * 100,\r\n        2\r\n    ) AS \"Percent\"\r\nFROM\r\n    fact_accidents a\r\nJOIN\r\n    dim_vehicles v\r\nON\r\n    a.vehicle1_id = v.vehicle_id\r\n    OR a.vehicle2_id = v.vehicle_id\r\n    OR a.vehicle3_id = v.vehicle_id\r\n    OR a.vehicle4_id = v.vehicle_id\r\n    OR a.vehicle5_id = v.vehicle_id\r\nGROUP BY\r\n    v.vehicle_type\r\nORDER BY\r\n    \"Count\" DESC;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Vehicle Types Involved in Accidents",
+      "transformations": [],
+      "type": "piechart"
+    },
+    {
+      "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "pointSize": {
+              "fixed": 20
+            },
+            "scaleDistribution": {
+              "log": 2,
+              "type": "log"
+            },
+            "show": "points"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 13,
+        "x": 0,
+        "y": 23
+      },
+      "id": 14,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "series": [
+          {
+            "pointColor": {},
+            "x": "Injured"
+          }
+        ],
+        "seriesMapping": "auto",
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n    c.contributing_factor AS \"Contributing Factor\",\r\n    SUM(a.n_injured) AS \"Injured\",\r\n    SUM(a.n_killed) AS \"Killed\"\r\nFROM\r\n    fact_accidents a\r\nJOIN\r\n    dim_contributing_factors c\r\nON\r\n    a.contributing_factor1_id = c.contributing_factor_id\r\n    OR a.contributing_factor2_id = c.contributing_factor_id\r\n    OR a.contributing_factor3_id = c.contributing_factor_id\r\n    OR a.contributing_factor4_id = c.contributing_factor_id\r\n    OR a.contributing_factor5_id = c.contributing_factor_id\r\nGROUP BY\r\n    c.contributing_factor;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Injuries/Killings in relation to Contributing Factors",
+      "type": "xychart"
+    },
+    {
+      "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 11,
+        "x": 13,
+        "y": 23
+      },
+      "id": 10,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n    contributing_factor,\r\n    COUNT(*) AS \"frequency\"\r\nFROM\r\n    fact_accidents\r\n    JOIN dim_contributing_factors ON fact_accidents.contributing_factor1_id = dim_contributing_factors.contributing_factor_id\r\nGROUP BY\r\n    contributing_factor\r\nORDER BY \r\n    \"frequency\" DESC;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Factors contributing to high-risk scores",
+      "type": "table"
+    },
+    {
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 2
+        "y": 36
       },
-      "id": 6,
-      "panels": [
-        {
-          "datasource": {
-            "type": "postgres",
-            "uid": "P649E709BFFDB8462"
+      "id": 5,
+      "panels": [],
+      "title": "Geographic Profiling",
+      "type": "row"
+    },
+    {
+      "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
           },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
               },
-              "custom": {
-                "align": "auto",
-                "cellOptions": {
-                  "type": "auto"
-                },
-                "inspect": false
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
+              {
+                "color": "dark-red",
+                "value": 2
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 19,
+        "w": 14,
+        "x": 0,
+        "y": 37
+      },
+      "id": 1,
+      "options": {
+        "basemap": {
+          "config": {},
+          "name": "Layer 0",
+          "type": "default"
+        },
+        "controls": {
+          "mouseWheelZoom": true,
+          "showAttribution": false,
+          "showDebug": false,
+          "showMeasure": false,
+          "showScale": true,
+          "showZoom": true
+        },
+        "layers": [
+          {
+            "config": {
+              "blur": 30,
+              "radius": 10,
+              "weight": {
+                "fixed": 1,
+                "max": 1,
+                "min": 0
               }
             },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 3
-          },
-          "id": 13,
-          "options": {
-            "cellHeight": "sm",
-            "footer": {
-              "countRows": false,
-              "fields": "",
-              "reducer": [
-                "sum"
-              ],
-              "show": false
+            "location": {
+              "latitude": "latitude",
+              "longitude": "longitude",
+              "mode": "coords"
             },
-            "showHeader": true,
-            "sortBy": [
+            "name": "Accidents",
+            "opacity": 1,
+            "tooltip": true,
+            "type": "heatmap"
+          }
+        ],
+        "tooltip": {
+          "mode": "details"
+        },
+        "view": {
+          "allLayers": true,
+          "id": "coords",
+          "lat": 40.681004,
+          "lon": -73.970039,
+          "shared": true,
+          "zoom": 12.02
+        }
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \r\n    dc.latitude, \r\n    dc.longitude, \r\n    COUNT(*) as \"Number of Accidents\"\r\nFROM fact_accidents fa\r\nJOIN dim_coordinates dc ON fa.coordinate_id = dc.coordinates_id\r\nJOIN dim_timestamps dt ON fa.timestamp_id = dt.timestamp_id\r\nWHERE dt.date_obj BETWEEN date_trunc('month', NOW() - INTERVAL '1 month') AND (date_trunc('month', NOW()) - INTERVAL '1 day')\r\nGROUP BY dc.latitude, dc.longitude;",
+          "refId": "A",
+          "sql": {
+            "columns": [
               {
-                "desc": true,
-                "displayName": "number_of_accidents"
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Geographical heatmaps for highlighting high-risk areas",
+      "type": "geomap"
+    },
+    {
+      "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 19,
+        "w": 10,
+        "x": 14,
+        "y": 37
+      },
+      "id": 17,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \r\n    da.on_street_name AS \"On Street\",\r\n    SUM(fa.n_injured) AS \"Injured\",\r\n    SUM(fa.n_killed) AS \"Killed\"\r\nFROM \r\n    fact_accidents fa\r\nJOIN\r\n    dim_addresses da\r\nON \r\n    fa.address_id = da.address_id\r\nWHERE\r\n    da.on_street_name IS NOT NULL\r\n    AND da.on_street_name <> ''\r\nGROUP BY\r\n    da.on_street_name\r\nORDER BY\r\n    \"Injured\" DESC,\r\n    \"Killed\" DESC;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Injured/Killed by Street",
+      "type": "table"
+    },
+    {
+      "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "noValue": "Unspecified",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
               }
             ]
           },
-          "pluginVersion": "10.1.5",
-          "targets": [
-            {
-              "datasource": {
-                "type": "postgres",
-                "uid": "P649E709BFFDB8462"
-              },
-              "editorMode": "code",
-              "format": "table",
-              "rawQuery": true,
-              "rawSql": "SELECT\r\n    dim_contributing_factors.contributing_factor,\r\n    dim_vehicles.vehicle_type,\r\n    COUNT(*) AS \"number_of_accidents\"\r\nFROM\r\n    fact_accidents\r\nJOIN dim_contributing_factors ON fact_accidents.contributing_factor1_id = dim_contributing_factors.contributing_factor_id\r\nJOIN dim_vehicles ON fact_accidents.vehicle1_id = dim_vehicles.vehicle_id\r\nGROUP BY\r\n    dim_contributing_factors.contributing_factor,\r\n    dim_vehicles.vehicle_type\r\nORDER BY\r\n    \"number_of_accidents\" DESC;",
-              "refId": "A",
-              "sql": {
-                "columns": [
-                  {
-                    "parameters": [],
-                    "type": "function"
-                  }
-                ],
-                "groupBy": [
-                  {
-                    "property": {
-                      "type": "string"
-                    },
-                    "type": "groupBy"
-                  }
-                ],
-                "limit": 50
-              }
-            }
-          ],
-          "title": "Panel Title",
-          "type": "table"
+          "unit": "short"
         },
-        {
-          "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
-              }
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Killed"
             },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 6,
-            "x": 12,
-            "y": 3
-          },
-          "id": 4,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "area",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "textMode": "auto"
-          },
-          "pluginVersion": "10.1.5",
-          "targets": [
-            {
-              "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
-              "editorMode": "code",
-              "format": "table",
-              "rawQuery": true,
-              "rawSql": "SELECT COUNT(*) as total_accidents\r\nFROM fact_accidents fa\r\nJOIN dim_timestamps dt ON fa.timestamp_id = dt.timestamp_id\r\nWHERE dt.date_obj BETWEEN NOW() - INTERVAL '1 MONTH' AND NOW();",
-              "refId": "A",
-              "sql": {
-                "columns": [
-                  {
-                    "parameters": [],
-                    "type": "function"
-                  }
-                ],
-                "groupBy": [
-                  {
-                    "property": {
-                      "type": "string"
-                    },
-                    "type": "groupBy"
-                  }
-                ],
-                "limit": 50
-              }
-            }
-          ],
-          "title": "Total Number of Accidents in the Past Month",
-          "type": "stat"
-        },
-        {
-          "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 6,
-            "x": 18,
-            "y": 3
-          },
-          "id": 7,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "area",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "textMode": "auto"
-          },
-          "pluginVersion": "10.1.5",
-          "targets": [
-            {
-              "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
-              "editorMode": "code",
-              "format": "table",
-              "rawQuery": true,
-              "rawSql": "SELECT SUM(n_victims) as total_victims\r\nFROM fact_accidents fa\r\nJOIN dim_timestamps dt ON fa.timestamp_id = dt.timestamp_id\r\nWHERE dt.date_obj BETWEEN NOW() - INTERVAL '1 MONTH' AND NOW();",
-              "refId": "A",
-              "sql": {
-                "columns": [
-                  {
-                    "parameters": [],
-                    "type": "function"
-                  }
-                ],
-                "groupBy": [
-                  {
-                    "property": {
-                      "type": "string"
-                    },
-                    "type": "groupBy"
-                  }
-                ],
-                "limit": 50
-              }
-            }
-          ],
-          "title": "Total Number of Victims in the Past Month",
-          "type": "stat"
-        },
-        {
-          "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "fillOpacity": 80,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineWidth": 1,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
                 }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "short"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 15,
-            "w": 12,
-            "x": 0,
-            "y": 11
-          },
-          "id": 2,
-          "options": {
-            "barRadius": 0,
-            "barWidth": 0.97,
-            "fullHighlight": false,
-            "groupWidth": 0.7,
-            "legend": {
-              "calcs": [],
-              "displayMode": "list",
-              "placement": "right",
-              "showLegend": true
-            },
-            "orientation": "horizontal",
-            "showValue": "never",
-            "stacking": "none",
-            "tooltip": {
-              "mode": "single",
-              "sort": "none"
-            },
-            "xTickLabelRotation": 0,
-            "xTickLabelSpacing": 0
-          },
-          "pluginVersion": "10.1.5",
-          "targets": [
-            {
-              "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
-              "editorMode": "code",
-              "format": "table",
-              "rawQuery": true,
-              "rawSql": "SELECT dcf.contributing_factor as \"Contributin Factor\", COUNT(*) as \"Count\"\r\nFROM fact_accidents fa\r\nJOIN dim_contributing_factors dcf ON fa.contributing_factor1_id = dcf.contributing_factor_id\r\nGROUP BY dcf.contributing_factor\r\nORDER BY \"Count\" DESC\r\nLIMIT 10;",
-              "refId": "A",
-              "sql": {
-                "columns": [
-                  {
-                    "parameters": [],
-                    "type": "function"
-                  }
-                ],
-                "groupBy": [
-                  {
-                    "property": {
-                      "type": "string"
-                    },
-                    "type": "groupBy"
-                  }
-                ],
-                "limit": 50
               }
-            }
-          ],
-          "title": "Top 10 Contributing factors",
-          "type": "barchart"
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 56
+      },
+      "id": 18,
+      "options": {
+        "barRadius": 0.1,
+        "barWidth": 0.97,
+        "fullHighlight": true,
+        "groupWidth": 0.79,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true
         },
+        "orientation": "vertical",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "targets": [
         {
           "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "fillOpacity": 80,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineWidth": 1,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "short"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 7,
-            "w": 12,
-            "x": 12,
-            "y": 11
-          },
-          "id": 3,
-          "options": {
-            "barRadius": 0,
-            "barWidth": 0.97,
-            "fullHighlight": false,
-            "groupWidth": 0.7,
-            "legend": {
-              "calcs": [],
-              "displayMode": "list",
-              "placement": "right",
-              "showLegend": false
-            },
-            "orientation": "auto",
-            "showValue": "never",
-            "stacking": "none",
-            "tooltip": {
-              "mode": "single",
-              "sort": "none"
-            },
-            "xTickLabelRotation": 0,
-            "xTickLabelSpacing": 0
-          },
-          "pluginVersion": "10.1.5",
-          "targets": [
-            {
-              "datasource": "Postgres_NYC-Motor-Vechicle-Collisions",
-              "editorMode": "code",
-              "format": "table",
-              "rawQuery": true,
-              "rawSql": "SELECT da.borough, COUNT(*) as number_of_accidents\r\nFROM fact_accidents fa\r\nJOIN dim_addresses da ON fa.address_id = da.address_id\r\nGROUP BY da.borough\r\nORDER BY number_of_accidents DESC;",
-              "refId": "A",
-              "sql": {
-                "columns": [
-                  {
-                    "parameters": [],
-                    "type": "function"
-                  }
-                ],
-                "groupBy": [
-                  {
-                    "property": {
-                      "type": "string"
-                    },
-                    "type": "groupBy"
-                  }
-                ],
-                "limit": 50
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \r\n    da.borough as \"Borough\", \r\n    SUM(fa.n_injured) AS \"Injured\", \r\n    SUM(fa.n_killed) AS \"Killed\"\r\nFROM \r\n    fact_accidents fa\r\nJOIN \r\n    dim_addresses da \r\nON \r\n    fa.address_id = da.address_id\r\nGROUP BY \r\n    da.borough\r\nORDER BY \r\n    \"Injured\" DESC, \"Killed\" DESC;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
               }
-            }
-          ],
-          "title": "Accidets per borrow",
-          "type": "barchart"
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
         }
       ],
-      "title": "Row title",
-      "type": "row"
+      "title": "Injured/Killed by Borough",
+      "type": "barchart"
     }
   ],
   "refresh": "",
   "schemaVersion": 38,
-  "style": "dark",
   "tags": [],
   "templating": {
     "list": [
       {
         "current": {
-          "selected": true,
-          "text": "day",
-          "value": "day"
+          "selected": false,
+          "text": "year",
+          "value": "year"
         },
         "datasource": {
           "type": "postgres",
           "uid": "P649E709BFFDB8462"
         },
-        "definition": "SELECT column_name\nFROM information_schema.columns\nWHERE \n    table_name = 'dim_timestamps' AND \n    table_schema = 'public' AND \n    column_name != 'timestamp_id'\nORDER BY ordinal_position;",
+        "definition": "SELECT column_name\nFROM information_schema.columns\nWHERE \n    table_name = 'dim_timestamps' AND \n    table_schema = 'public' AND \n    column_name != 'timestamp_id' AND\n    column_name != 'date_obj'\nORDER BY ordinal_position;",
         "hide": 0,
         "includeAll": false,
         "multi": false,
         "name": "time_range",
         "options": [],
-        "query": "SELECT column_name\nFROM information_schema.columns\nWHERE \n    table_name = 'dim_timestamps' AND \n    table_schema = 'public' AND \n    column_name != 'timestamp_id'\nORDER BY ordinal_position;",
+        "query": "SELECT column_name\nFROM information_schema.columns\nWHERE \n    table_name = 'dim_timestamps' AND \n    table_schema = 'public' AND \n    column_name != 'timestamp_id' AND\n    column_name != 'date_obj'\nORDER BY ordinal_position;",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -960,8 +908,8 @@
     ]
   },
   "time": {
-    "from": "now-1y",
-    "to": "now"
+    "from": "2011-04-30T11:22:18.000Z",
+    "to": "2026-04-28T11:22:18.000Z"
   },
   "timepicker": {},
   "timezone": "",
