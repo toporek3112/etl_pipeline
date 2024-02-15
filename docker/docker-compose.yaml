@@ -2,51 +2,96 @@ version: '3.9'
 
 services:
   grafana:
-    image: grafana/grafana
+    image: grafana/grafana:latest
     container_name: etl_grafana
     ports:
-      - "3000:3000"
+      - "3005:3000"
     environment:
       GF_SECURITY_ADMIN_USER: postgres
       GF_SECURITY_ADMIN_PASSWORD: postgres
       GF_PROVISIONING_PATH: /etc/grafana/provisioning
+      GF_DATABASE_TYPE: postgres
+      GF_DATABASE_HOST: etl_postgres:5432
+      GF_DATABASE_USER: postgres
+      GF_DATABASE_PASSWORD: postgres
+      GF_DATABASE_NAME: grafana
+    networks:
+      etl_custom_bridge:
+        ipv4_address: 120.20.0.2
     volumes:
       - ./grafana/dashboards:/etc/grafana/provisioning/dashboards
       - ./grafana/datasources:/etc/grafana/provisioning/datasources
+    restart: unless-stopped
+    depends_on:
+      - postgres
   
   postgres:
     image: postgres:latest
     container_name: etl_postgres
+    networks:
+      etl_custom_bridge:
+        ipv4_address: 120.20.0.3
     ports:
       - "5432:5432"
+    volumes:
+      - etl_postgres_data:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
+      POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
-    volumes:
-      - etl_postgres:/var/lib/postgresql/data
+    restart: unless-stopped
   
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: etl_pgadmin
-    ports:
-      - "5050:80"
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: postgres
-  
-  # exporter_postgres:
-  #   image: quay.io/prometheuscommunity/postgres-exporter
-  #   container_name: etl_exporter_postgres
-  #   environment:
-  #     DATA_SOURCE_NAME: "postgresql://postgres:postgres@etl_pipeline:5432/?sslmode=disable"
+  # kafka_00:
+  #   image: confluentinc/cp-kafka:latest
+  #   container_name: etl_kafka_00
+  #   networks:
+  #     etl_custom_bridge:
+  #       ipv4_address: 120.20.0.4
   #   ports:
-  #     - "9187:9187"
-  #   depends_on:
-  #     - postgres
+  #     - "9088:9088"
+  #     - "9089:9089"
+  #     - "9087:9087"
+  #   volumes:
+  #     - etl_kafka_data:/var/lib/kafka/data
+  #   environment:
+  #     # Node settings
+  #     KAFKA_BROKER_ID: 0
+  #     KAFKA_NODE_ID: 0
+  #     # Listeneres
+  #     ALLOW_PLAINTEXT_LISTENER: "yes"
+  #     KAFKA_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
+  #     KAFKA_INTER_BROKER_LISTENER_NAME: "INTERNAL"
+  #     KAFKA_LISTENERS: "CONTROLLER://etl_kafka_00:9089,INTERNAL://etl_kafka_00:9094,LOCALHOST://120.20.0.3:9088"
+  #     KAFKA_ADVERTISED_LISTENERS: "INTERNAL://etl_kafka_00:9094,LOCALHOST://120.20.0.3:9088"
+  #     KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT,LOCALHOST:PLAINTEXT"
+  #     KAFKA_CONTROLLER_QUORUM_VOTERS: "0@etl_kafka_00:9089"
+  #     KAFKA_ENABLE_KRAFT: "true"
+  #     # Topics
+  #     KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+  #     KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+  #     KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+  #     KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+  #     KAFKA_DEFAULT_REPLICATION_FACTOR: 1
+  #     KAFKA_NUM_PARTITIONS: 1
+  #     # Metrics
+  #     KAFKA_JMX_PORT: "9087"
+  #     KAFKA_JMX_HOSTNAME: "etl_kafka_00"
+  #     KAFKA_JMX_OPTS: "-Djava.rmi.server.hostname=etl_kafka_00 -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.rmi.port=9087"
+  #     # Rest
+  #     KAFKA_PROCESS_ROLES: "broker,controller"
+  #     KAFKA_HEAP_OPTS: "-Xmx2g -Xms2g"
+  #     KAFKA_LOG_DIRS: "/var/lib/kafka/data"
+  #     CLUSTER_ID: n3KIrTWZSgCBNF2UZqvI8Q
   #   restart: unless-stopped
 
 volumes:
-  etl_postgres:
-    name: etl_postgres
-    driver: local
+  etl_postgres_data:
+  etl_kafka_data:
+
+networks:
+  etl_custom_bridge:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 120.20.0.0/16
