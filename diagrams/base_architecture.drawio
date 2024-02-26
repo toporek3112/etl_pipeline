@@ -1,0 +1,31 @@
+<mxfile host="app.diagrams.net" modified="2024-02-26T17:29:22.287Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0" etag="buVq5xC0jru6dTqDGOEG" version="23.0.2" type="device">
+  <diagram name="Page-1" id="oqXyPWQXg7yZuA2z7Wvb">
+    <mxGraphModel dx="1070" dy="703" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="FoTakBQaVvtH0_2LShfo-7" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="20" y="20" width="460" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="FoTakBQaVvtH0_2LShfo-8" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="30" y="30" width="440" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="FoTakBQaVvtH0_2LShfo-1" value="Base Architecture" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="FoTakBQaVvtH0_2LShfo-8">
+          <mxGeometry width="440" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="FoTakBQaVvtH0_2LShfo-2" value="Postgres" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="FoTakBQaVvtH0_2LShfo-8">
+          <mxGeometry x="20" y="30" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="FoTakBQaVvtH0_2LShfo-3" value="Grafana" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="FoTakBQaVvtH0_2LShfo-8">
+          <mxGeometry x="160" y="30" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="FoTakBQaVvtH0_2LShfo-4" value="Kafka" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="FoTakBQaVvtH0_2LShfo-8">
+          <mxGeometry x="300" y="30" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="FoTakBQaVvtH0_2LShfo-5" value="Docker" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#000000;" vertex="1" parent="FoTakBQaVvtH0_2LShfo-8">
+          <mxGeometry y="110" width="440" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
