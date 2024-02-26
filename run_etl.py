@@ -2,12 +2,12 @@ import os
 import json
 import argparse
 from prettytable import PrettyTable
-from etl.datasets.nyc_motor_vehicle_collisions_crashes.motor_vehicle_collision import MotorVehicleCollision
-from etl.datasets.nyc_motor_vehicle_collisions_crashes.motor_vehicle_collision_dataset import MotorVehicleCollisionDataset
-from etl.datasets.AMS.ams_dataset import AMSDataset
+from pipeline.datasets.nyc_motor_vehicle_collisions_crashes.motor_vehicle_collision import MotorVehicleCollision
+from pipeline.datasets.nyc_motor_vehicle_collisions_crashes.motor_vehicle_collision_dataset import MotorVehicleCollisionDataset
+from pipeline.datasets.AMS.ams_dataset import AMSDataset
 
 def list_datasets():
-    datasets_dir = os.path.join(os.getcwd(), 'etl/datasets')
+    datasets_dir = os.path.join(os.getcwd(), 'pipeline/datasets')
     datasets = [d for d in os.listdir(datasets_dir) if os.path.isdir(os.path.join(datasets_dir, d))]
     return datasets
 
@@ -31,7 +31,7 @@ def select_dataset(datasets):
 
 def read_dataset_metadata(dataset: str):
     current_directory = os.path.dirname(os.path.abspath(__file__))
-    metadata_path = os.path.join(current_directory, "etl", 'datasets', dataset, 'metadata.json')
+    metadata_path = os.path.join(current_directory, "pipeline", 'datasets', dataset, 'metadata.json')
     with open(metadata_path, 'r', encoding='utf-8') as file:
         metadata = json.load(file)
     return metadata
